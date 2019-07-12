@@ -2,9 +2,9 @@ import React, {Component, PureComponent} from 'react';
 import {Layout} from 'antd';
 import {ROUTES, PAGE, RouteNotFound} from './routes';
 
-import {HeaderComp} from './Header';
-import {FooterComp} from './Footer';
-import {SidebarComp} from './Sidebar';
+import {HeaderComp} from './shared/Header';
+import {FooterComp} from './shared/Footer';
+import {SidebarComp} from './shared/Sidebar';
 
 import './App.css';
 

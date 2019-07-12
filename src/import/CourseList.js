@@ -16,11 +16,9 @@ export function CourseList(props) {
                 </Checkbox></List.Item>
             )}
             header={
-                <div>
-                    <Button type="primary" onClick={props.do_import}>
+                    <Button type="primary" size="large" block onClick={props.do_import}>
                         <Icon type="import" /> 导入所选课程
                     </Button>
-                </div>
             }
         >
         </List>

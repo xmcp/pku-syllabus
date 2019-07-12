@@ -1,7 +1,6 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Row, Col, Icon, Checkbox, List, Affix} from 'antd';
+import {PageHeader, Button, Icon, Affix} from 'antd';
 import {ROUTES} from '../routes';
-import {describe_time} from '../utils';
 import {CourseList} from './CourseList';
 
 import './ImportElective.css';

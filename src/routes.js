@@ -5,6 +5,7 @@ import {Homepage} from './homepage/Homepage';
 import {ImportElective} from './import/ImportElective';
 import {Edit} from './edit/Edit';
 import {ExportIcs} from './export/ExportIcs';
+import {ImportIsop} from './import/ImportIsop';
 
 export const ROUTES={
     homepage: 'homepage',
@@ -19,6 +20,7 @@ export const ROUTES={
 export const PAGE={
     homepage: Homepage,
     import_elective: ImportElective,
+    import_isop: ImportIsop,
     edit: Edit,
     export_ics: ExportIcs,
 };

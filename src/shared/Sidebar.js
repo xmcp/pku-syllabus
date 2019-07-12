@@ -1,6 +1,6 @@
 import React, {Component, PureComponent} from 'react';
 import {Menu, Icon, Layout, Badge} from 'antd';
-import {ROUTES} from './routes';
+import {ROUTES} from '../routes';
 
 const {Item, SubMenu}=Menu;
 const {Sider}=Layout;
