@@ -1,0 +1,23 @@
+.elective-instruction-img {
+    float: right;
+    width: 214px;
+    max-width: 40vw;
+    border: 2px solid black;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.elective-paster {
+    height: 10em;
+    border-radius: .5em;
+    background-color: white;
+    border: 2px dashed black;
+    overflow: auto;
+}
+.elective-paster:empty::before {
+    content: '（粘贴到此处）';
+    line-height: 100%;
+    opacity: .6;
+}
