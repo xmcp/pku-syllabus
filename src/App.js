@@ -23,7 +23,7 @@ class App extends Component {
 
     componentDidMount() {
         window.addEventListener('beforeunload', (e)=>{
-            if(this.state.courses.length>0) {
+            if(this.state.courses.length>0 && this.state.route!==ROUTES.export_ics) {
                 e.preventDefault();
                 e.returnValue='确定要退出吗？';
             }
