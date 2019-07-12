@@ -22,9 +22,13 @@
     opacity: .6;
 }
 
+.elective-iframe-holder {
+    min-width: 1200px;
+    overflow: auto;
+}
 .elective-iframe {
     border: 0;
     width: 100%;
-    height: calc(100vh - 8em);
+    height: calc(100vh - 5em);
     overflow: auto;
 }

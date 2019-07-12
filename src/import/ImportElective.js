@@ -113,6 +113,7 @@ export class ImportElective extends Component {
     }
 
     render() {
+        let loaded=this.state.courses.length>0;
         return (
             <div>
                 <Affix offsetTop={0}>
@@ -139,8 +140,8 @@ export class ImportElective extends Component {
                         <Button type="danger" onClick={()=>{this.clear_paster();}}>
                             <Icon type="delete" /> 重置
                         </Button>
-                        &nbsp;
-                        {this.state.courses.length>0 ?
+                        &nbsp;&nbsp;
+                        {loaded ?
                             <b>识别成功！</b> :
                             <Button type="primary" onClick={this.show_drawer.bind(this)}>
                                 <Icon type="block" /> 进入选课系统
@@ -149,9 +150,10 @@ export class ImportElective extends Component {
                     </p>
                     <div className="clearfix" />
                     <br />
-                    <div className="elective-paster" ref={this.paster_ref} contentEditable onInput={this.do_load.bind(this)} />
-                    <br />
-                    {this.state.courses.length>0 &&
+                    <div className="elective-paster" ref={this.paster_ref} onInput={this.do_load.bind(this)}
+                         style={{display: loaded ? 'none' : 'block'}} contentEditable={!loaded}
+                    />
+                    {loaded &&
                         <CourseList
                             courses={this.state.courses}
                             skipped_courses={this.state.skipped_courses}
@@ -164,14 +166,22 @@ export class ImportElective extends Component {
                         title="请登录后复制选课结果"
                         visible={this.state.drawer_visible}
                         destroyOnClose={true}
-                        width="calc(90% - 10px)"
+                        width="85vw"
+                        bodyStyle={{
+                            padding: 0,
+                            width: '85vw',
+                            overflow: 'auto',
+                            fontSize: 'unset',
+                        }}
                         onClose={()=>{
                             this.setState({
                                 drawer_visible: false,
                             });
                         }}
                 >
-                    <iframe src="http://elective.pku.edu.cn" className="elective-iframe" />
+                    <div className="elective-iframe-holder">
+                        <iframe src="http://elective.pku.edu.cn" className="elective-iframe" />
+                    </div>
                 </Drawer>
             </div>
         );

@@ -18,14 +18,14 @@ export class Homepage extends Component {
                 <div className="main-margin">
                     {!!IS_WEBVIEW &&
                         <Alert
-                            message="请使用浏览器打开本网站"
-                            description="QQ、微信等程序的内嵌浏览器不支持文件下载，因此无法正常使用"
+                            message="请在浏览器中打开"
+                            description="QQ、微信等程序的内嵌网页不支持文件下载，因此无法正常保存日历。不信你试试。"
                             type="error"
                             showIcon
                         />
                     }
                     <br />
-                    <p><b>请选择数据来源：</b></p>
+                    <p><b>选择数据来源：</b></p>
                     <br />
                     <Row gutter={16}>
                         <Col md={8}>
