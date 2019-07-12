@@ -17,10 +17,10 @@ export function SidebarComp(props) {
             collapsedWidth="0"
             style={{
                 overflow: 'auto',
-                height: 'calc(100vh - 2em)',
+                height: '100vh',
                 position: 'fixed',
                 top: 0,
-                marginTop: '2em',
+                paddingTop: '2em',
                 left: 0,
                 width: '200px',
             }}

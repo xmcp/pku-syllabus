@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Icon, Affix} from 'antd';
+import {PageHeader, Button, Icon, Affix, Drawer} from 'antd';
 import {ROUTES} from '../routes';
 import {CourseList} from './CourseList';
 
@@ -11,6 +11,7 @@ export class ImportElective extends Component {
     constructor(props) {
         super(props);
         this.state={
+            drawer_visible: false,
             courses: [],
             skipped_courses: [], // course_name
         };
@@ -105,6 +106,12 @@ export class ImportElective extends Component {
         this.props.navigate(ROUTES.edit);
     }
 
+    show_drawer() {
+        this.setState({
+            drawer_visible: true,
+        });
+    }
+
     render() {
         return (
             <div>
@@ -119,21 +126,25 @@ export class ImportElective extends Component {
                     <div className="elective-instruction">
                         <img src={elective_instruction} className="elective-instruction-img" />
                         <p>
-                            请登录 <a href="http://elective.pku.edu.cn" target="_blank" rel="noopener noreferrer">选课系统</a>，
+                            你需要登录选课系统，
                             点击“查看选课结果”。
                         </p>
                         <br />
-                        <p>请选中从 “<code>查看选课结果</code>” 到 “<code>注：</code>” 之间的内容，</p>
+                        <p>然后选中从 “<code>查看选课结果</code>” 到 “<code>注：</code>” 之间的内容，</p>
                         <p>确保选中<b>整个选课结果表格</b>（如右图），</p>
-                        <p>然后复制粘贴到下面的文本框中。</p>
+                        <p>再复制粘贴到下面的文本框中。</p>
                     </div>
                     <br />
                     <p>
                         <Button type="danger" onClick={()=>{this.clear_paster();}}>
                             <Icon type="delete" /> 重置
                         </Button>
-                        {this.state.courses.length>0 &&
-                            <b>&nbsp; 识别成功！</b>
+                        &nbsp;
+                        {this.state.courses.length>0 ?
+                            <b>识别成功！</b> :
+                            <Button type="primary" onClick={this.show_drawer.bind(this)}>
+                                <Icon type="block" /> 进入选课系统
+                            </Button>
                         }
                     </p>
                     <div className="clearfix" />
@@ -149,6 +160,19 @@ export class ImportElective extends Component {
                         />
                     }
                 </div>
+                <Drawer
+                        title="请登录后复制选课结果"
+                        visible={this.state.drawer_visible}
+                        destroyOnClose={true}
+                        width="calc(80% - 20px)"
+                        onClose={()=>{
+                            this.setState({
+                                drawer_visible: false,
+                            });
+                        }}
+                >
+                    <iframe src="http://elective.pku.edu.cn" className="elective-iframe" />
+                </Drawer>
             </div>
         );
     }

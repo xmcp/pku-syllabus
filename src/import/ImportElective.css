@@ -21,3 +21,10 @@
     line-height: 100%;
     opacity: .6;
 }
+
+.elective-iframe {
+    border: 0;
+    width: 100%;
+    height: calc(100vh - 8em);
+    overflow: auto;
+}

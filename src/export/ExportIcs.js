@@ -74,7 +74,7 @@ export class ExportIcs extends Component {
     constructor(props) {
         super(props);
         this.state={
-            alarm: 0,
+            alarm: 30,
         };
     }
 

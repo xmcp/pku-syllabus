@@ -1,7 +1,11 @@
-.homepage-instruction-img {
+.about-frame p {
+    margin-top: 1em;
+}
+
+.figure-img {
     display: block;
     width: 600px;
     max-width: 100%;
     text-align: center;
-    margin: 1em auto;
+    margin: 2em auto;
 }

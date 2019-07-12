@@ -2,10 +2,6 @@ import React, {Component, PureComponent} from 'react';
 import {PageHeader, Row, Col, Card, Icon, Button, Alert, Affix} from 'antd';
 import {ROUTES} from '../routes';
 
-import './homepage.css';
-
-import index_figure from './homepage_figure.png';
-
 export class Homepage extends Component {
     render() {
         let IS_WEBVIEW=/MicroMessenger\/|QQ\//.test(navigator.userAgent);
@@ -13,7 +9,7 @@ export class Homepage extends Component {
         return (
             <div>
                 <Affix offsetTop={0}>
-                    <PageHeader title="课表助手" subTitle="帮您将课表保存到日历" extra={
+                    <PageHeader title="课表助手" subTitle="帮你将课表保存到日历" extra={
                         this.props.courses.length>0 && <Button size="small" onClick={()=>{this.props.navigate(ROUTES.edit);}}>
                             编辑器
                         </Button>
@@ -28,7 +24,6 @@ export class Homepage extends Component {
                             showIcon
                         />
                     }
-                    <img src={index_figure} className="homepage-instruction-img" />
                     <br />
                     <p><b>请选择数据来源：</b></p>
                     <br />
@@ -67,6 +62,8 @@ export class Homepage extends Component {
                             <br />
                         </Col>
                     </Row>
+                    <br />
+                    <p><a onClick={()=>{this.props.navigate(ROUTES.about);}}>关于课表助手</a></p>
                 </div>
             </div>
         );
