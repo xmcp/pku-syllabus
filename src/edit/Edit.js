@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {Table, Icon, Button, Popover, Input, InputNumber, Select, PageHeader, Row, Col} from 'antd';
+import {Table, Icon, Button, Popover, Input, InputNumber, Select, PageHeader, Row, Col, Affix} from 'antd';
 import {describe_time} from '../utils';
 import {ROUTES} from '../routes';
 
@@ -18,7 +18,7 @@ class CourseChanger extends Component {
         });
     }
 
-    do_save() {
+    do_save() { // todo: validate input
         let co=Object.assign({},this.props.course);
         Object.keys(this.inputs).forEach((k)=>{
             let parse=(typeof co[k]===typeof 1) ? parseInt : (x)=>x;
@@ -51,8 +51,8 @@ class CourseChanger extends Component {
                 <p><Input addonBefore="名称" defaultValue={co.course_name} onChange={change_meta('course_name')} /></p>
                 <br />
                 <InputGroup compact>
-                    <Input style={{width: '25%'}} prefix="第" defaultValue={co.begin_week} suffix="~" onChange={change_meta('begin_week')} />
-                    <Input style={{width: '25%'}} defaultValue={co.end_week} suffix="周" onChange={change_meta('end_week')} />
+                    <Input style={{width: '25%'}} type="number" prefix="第" defaultValue={co.begin_week} suffix="~" onChange={change_meta('begin_week')} />
+                    <Input style={{width: '25%'}} type="number" defaultValue={co.end_week} suffix="周" onChange={change_meta('end_week')} />
                     <Select style={{width: '25%'}} defaultValue={co.every} onChange={change_meta('every')}>
                         <Option value="all">每周</Option>
                         <Option value="odd">单周</Option>
@@ -70,9 +70,9 @@ class CourseChanger extends Component {
                 </InputGroup>
                 <br />
                 <InputGroup compact>
-                    <Input style={{width: '25%'}} prefix="第" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
-                    <Input style={{width: '25%'}} defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
-                    <Input style={{width: '50%'}} prefix="在" defaultValue={co.classroom} onChange={change_meta('classroom')} />
+                    <Input style={{width: '25%'}} type="number" prefix="第" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
+                    <Input style={{width: '25%'}} type="number" defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
+                    <Input style={{width: '50%'}} prefix="在" defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
                 </InputGroup>
                 <br />
                 <Button type="primary" block onClick={this.do_save.bind(this)} disabled={!this.state.changed}>
@@ -132,66 +132,69 @@ export class Edit extends Component {
 
         return (
             <div>
-                <PageHeader
-                    title="编辑课表"
-                    backIcon={<Icon type="home" />}
-                    onBack={()=>{this.props.navigate(ROUTES.homepage)}}
-                    extra={
-                        <Button type="primary" onClick={()=>{this.props.navigate(ROUTES.export_ics);}}>
-                            生成日历
-                        </Button>
-                    }
-                />
-                <Table
-                    dataSource={courses_with_key}
-                    rowKey="key"
-                    pagination={false}
-                    scroll={{x: 500}}
-                    size="small"
-                    columns={[
-                        {
-                            title: '操作',
-                            key: 'actions',
-                            fixed: 'left',
-                            width: 85,
-                            align: 'center',
-                            render: (_,co,idx)=>(
-                                <span>
-                                    <Button style={{color: 'red'}} size="small" onClick={this.delete_course_meta(idx)}>
-                                        <Icon type="delete" />
-                                    </Button>
-                                    &nbsp;
-                                    <Popover
-                                            key={`${this.props.courses.length},${idx}`} // refresh when courses are changed
-                                            trigger="click"
-                                            title="修改课程信息"
-                                            content={<CourseChanger course={co} do_modify={this.modify_course_meta(idx)} />}
-                                            placement="topLeft"
-                                    >
-                                        <Button size="small">
-                                            <Icon type="form" />
-                                        </Button>
-                                    </Popover>
-                                </span>
-                            )
-                        },
-                        {
-                            title: '课程名称',
-                            dataIndex: 'course_name',
-                        },
-                        {
-                            title: '时间',
-                            dataIndex: '',
-                            key: 'time',
-                            render: (_,co)=>describe_time(co),
-                        },
-                        {
-                            title: '教室',
-                            dataIndex: 'classroom',
-                        },
-                    ]}
-                />
+                <Affix offsetTop={0}>
+                    <PageHeader
+                        title="编辑课表"
+                        backIcon={<Icon type="home" />}
+                        onBack={()=>{this.props.navigate(ROUTES.homepage)}}
+                        extra={
+                            <Button type="primary" size="small" onClick={()=>{this.props.navigate(ROUTES.export_ics);}}>
+                                生成日历
+                            </Button>
+                        }
+                    />
+                </Affix>
                 <div className="main-margin">
+                    <Table
+                        dataSource={courses_with_key}
+                        rowKey="key"
+                        pagination={false}
+                        scroll={{x: 500}}
+                        size="small"
+                        columns={[
+                            {
+                                title: '操作',
+                                key: 'actions',
+                                fixed: 'left',
+                                width: 85,
+                                align: 'center',
+                                render: (_,co,idx)=>(
+                                    <span>
+                                        <Button type="danger" size="small" onClick={this.delete_course_meta(idx)}>
+                                            <Icon type="delete" />
+                                        </Button>
+                                        &nbsp;
+                                        <Popover
+                                                key={`${this.props.courses.length},${idx}`} // refresh when courses are changed
+                                                trigger="click"
+                                                title="修改课程信息"
+                                                content={<CourseChanger course={co} do_modify={this.modify_course_meta(idx)} />}
+                                                placement="topLeft"
+                                        >
+                                            <Button size="small">
+                                                <Icon type="form" />
+                                            </Button>
+                                        </Popover>
+                                    </span>
+                                )
+                            },
+                            {
+                                title: '课程名称',
+                                dataIndex: 'course_name',
+                            },
+                            {
+                                title: '时间',
+                                dataIndex: '',
+                                key: 'time',
+                                render: (_,co)=>describe_time(co),
+                            },
+                            {
+                                title: '教室',
+                                dataIndex: 'classroom',
+                            },
+                        ]}
+                    />
+                    <br />
                     <Button type="danger" onClick={this.clear_courses.bind(this)}>
                         <Icon type="delete" /> 清空
                     </Button>

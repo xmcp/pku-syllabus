@@ -1,5 +1,8 @@
 .main-margin {
-    margin: 1em;
+    margin: 1em auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    max-width: 900px;
 }
 
 @media screen and (min-width: 769px) {

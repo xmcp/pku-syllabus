@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Row, Col, Icon, Checkbox, List} from 'antd';
+import {PageHeader, Button, Row, Col, Icon, Checkbox, List, Affix} from 'antd';
 import {ROUTES} from '../routes';
 import {describe_time} from '../utils';
 import {CourseList} from './CourseList';
@@ -109,20 +109,22 @@ export class ImportElective extends Component {
     render() {
         return (
             <div>
-                <PageHeader title="从选课系统导入课表" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
-                    <Button onClick={()=>{this.props.navigate(ROUTES.edit);}}>
-                        编辑器
-                    </Button>
-                } />
+                <Affix offsetTop={0}>
+                    <PageHeader title="从选课系统导入课表" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
+                        this.props.courses.length>0 && <Button size="small" onClick={()=>{this.props.navigate(ROUTES.edit);}}>
+                            编辑器
+                        </Button>
+                    } />
+                </Affix>
                 <div className="main-margin">
                     <div className="elective-instruction">
                         <img src={elective_instruction} className="elective-instruction-img" />
                         <p>
                             请登录 <a href="http://elective.pku.edu.cn" target="_blank" rel="noopener noreferrer">选课系统</a>，
-                            进入“选课结果”。
+                            点击“查看选课结果”。
                         </p>
                         <br />
-                        <p>请选中从 “<code>>>查看选课结果</code>” 到 “<code>注：</code>” 之间的内容，</p>
+                        <p>请选中从 “<code>查看选课结果</code>” 到 “<code>注：</code>” 之间的内容，</p>
                         <p>确保选中<b>整个选课结果表格</b>（如右图），</p>
                         <p>然后复制粘贴到下面的文本框中。</p>
                     </div>

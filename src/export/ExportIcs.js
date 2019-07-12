@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Input, Icon} from 'antd';
+import {PageHeader, Button, Input, Icon, Affix} from 'antd';
 import ical from 'ical-generator';
 import {SEMESTER, DATA_VER} from '../config';
 import {ROUTES} from '../routes';
@@ -129,11 +129,13 @@ export class ExportIcs extends Component {
     render() {
         return (
             <div>
-                <PageHeader title="生成 iCalendar 日历" onBack={()=>{this.props.navigate(ROUTES.edit);}} />
+                <Affix offsetTop={0}>
+                    <PageHeader title="生成 iCalendar 日历" onBack={()=>{this.props.navigate(ROUTES.edit);}} />
+                </Affix>
                 <div className="main-margin">
                     <p>当前学期：{SEMESTER.name}</p>
                     <br />
-                    <Button block type="primary" size="large" href={this.gen_cal()}>
+                    <Button block type="primary" size="large" href={this.gen_cal()} disabled={this.props.courses.length===0}>
                         <Icon type="download" /> 保存日历
                     </Button>
                     <br /><br />
@@ -142,11 +144,11 @@ export class ExportIcs extends Component {
                     /></p>
                     <br />
                     <p>
-                        生成的 iCalendar (.ICS) 文件属于通用的日历格式，
-                        可以直接导入到 Windows 10 日历 / macOS 日历 / iOS 日历 / Outlook / Google Calendar 等程序中。
+                        生成的 iCalendar (.ICS) 文件属于通用日历格式，
+                        可直接导入到 Windows 10 日历 / macOS 日历 / iOS 日历 / Outlook / Google Calendar 等程序中。
                     </p>
                     <p>
-                        部分 Android 系统支持该日历格式，请自行搜索你的系统如何导入日历。
+                        部分 Android 系统支持该格式，请自行搜索你的系统如何导入日历。
                     </p>
                 </div>
             </div>

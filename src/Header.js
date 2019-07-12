@@ -3,6 +3,8 @@ import {AppSwitcher, GlobalTitle} from './infrastructure/widgets';
 
 export function HeaderComp(props) {
     return (
-        <AppSwitcher appid="syllabus" />
+        <div style={{backgroundColor: 'white'}}>
+            <AppSwitcher appid="syllabus" />
+        </div>
     );
 }

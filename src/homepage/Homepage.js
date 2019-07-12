@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Row, Col, Card, Icon, Button} from 'antd';
+import {PageHeader, Row, Col, Card, Icon, Button, Alert, Affix} from 'antd';
 import {ROUTES} from '../routes';
 
 import './homepage.css';
@@ -8,14 +8,26 @@ import index_figure from './homepage_figure.png';
 
 export class Homepage extends Component {
     render() {
+        let IS_WEBVIEW=/MicroMessenger\/|QQ\//.test(navigator.userAgent);
+
         return (
             <div>
-                <PageHeader title="课表助手" subTitle="帮您将课表保存到日历" extra={
-                    <Button onClick={()=>{this.props.navigate(ROUTES.edit);}}>
-                        编辑器
-                    </Button>
-                } />
+                <Affix offsetTop={0}>
+                    <PageHeader title="课表助手" subTitle="帮您将课表保存到日历" extra={
+                        this.props.courses.length>0 && <Button size="small" onClick={()=>{this.props.navigate(ROUTES.edit);}}>
+                            编辑器
+                        </Button>
+                    } />
+                </Affix>
                 <div className="main-margin">
+                    {!!IS_WEBVIEW &&
+                        <Alert
+                            message="请使用浏览器打开本网站"
+                            description="QQ、微信等程序的内嵌浏览器不支持文件下载，因此无法正常使用"
+                            type="error"
+                            showIcon
+                        />
+                    }
                     <img src={index_figure} className="homepage-instruction-img" />
                     <br />
                     <p><b>请选择数据来源：</b></p>
@@ -23,18 +35,18 @@ export class Homepage extends Component {
                     <Row gutter={16}>
                         <Col md={8}>
                             <Card title={<span><Icon type="chrome" /> Elective</span>}>
-                                <Button type="primary" block onClick={()=>{this.props.navigate(ROUTES.import_elective);}}>
+                                <Button size="large" type="primary" block onClick={()=>{this.props.navigate(ROUTES.import_elective);}}>
                                     <Icon type="right-circle" /> 选课系统
                                 </Button>
                                 <br /><br />
                                 <p>从 elective.pku.edu.cn 导入课表。</p>
-                                <p style={{fontWeight: 'bold', color: 'red'}}>选课结束（第三周）前请选择此选项。</p>
+                                <p style={{fontWeight: 'bold', color: 'red'}}>选课结束（第三周）前请选择此项。</p>
                             </Card>
                             <br />
                         </Col>
                         <Col md={8}>
                             <Card title={<span><Icon type="api" /> ISOP</span>}>
-                                <Button type="primary" block onClick={()=>{this.props.navigate(ROUTES.import_isop);}}>
+                                <Button size="large" type="primary" block onClick={()=>{this.props.navigate(ROUTES.import_isop);}}>
                                     <Icon type="right-circle" /> 教务系统
                                 </Button>
                                 <br /><br />
@@ -45,12 +57,12 @@ export class Homepage extends Component {
                         </Col>
                         <Col md={8}>
                             <Card title={<span><Icon type="calendar" /> .ICS</span>}>
-                                <Button type="primary" block onClick={()=>{this.props.navigate(ROUTES.import_config);}}>
+                                <Button size="large" type="primary" block onClick={()=>{this.props.navigate(ROUTES.import_config);}}>
                                     <Icon type="right-circle" /> 日历文件
                                 </Button>
                                 <br /><br />
-                                <p>加载之前导出的日历文件。</p>
-                                <p>如果您之前使用过本工具，可以对生成的日历进行编辑。</p>
+                                <p>加载之前的日历文件。</p>
+                                <p>对本工具生成的日历进行编辑。</p>
                             </Card>
                             <br />
                         </Col>
