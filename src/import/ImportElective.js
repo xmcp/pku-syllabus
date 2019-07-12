@@ -164,7 +164,7 @@ export class ImportElective extends Component {
                         title="请登录后复制选课结果"
                         visible={this.state.drawer_visible}
                         destroyOnClose={true}
-                        width="calc(80% - 20px)"
+                        width="calc(90% - 10px)"
                         onClose={()=>{
                             this.setState({
                                 drawer_visible: false,
