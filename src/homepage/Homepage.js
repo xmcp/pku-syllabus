@@ -19,7 +19,7 @@ export class Homepage extends Component {
                     {!!IS_WEBVIEW &&
                         <Alert
                             message="请在浏览器中打开"
-                            description="QQ、微信等程序的内嵌网页不支持文件下载，因此无法正常保存日历。不信你试试。"
+                            description="QQ、微信等程序的内嵌网页不支持文件下载，故无法正常保存日历。不信你试试。"
                             type="error"
                             showIcon
                         />
