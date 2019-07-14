@@ -10,16 +10,27 @@
 }
 
 .elective-paster {
-    height: 10em;
     border-radius: .5em;
     background-color: white;
     border: 2px dashed black;
     overflow: auto;
 }
-.elective-paster:empty::before {
+
+.elective-paster-main:empty::before {
     content: '（粘贴到此处）';
-    line-height: 100%;
     opacity: .6;
+}
+.elective-paster-drawer:empty::before {
+    content: '（复制整个表格，粘贴到此处）';
+    opacity: .6;
+}
+.elective-paster-main {
+    height: 10em;
+}
+.elective-paster-drawer {
+    height: 2em;
+    margin: .5em;
+    bottom: 0;
 }
 
 .elective-iframe-holder {
@@ -29,6 +40,6 @@
 .elective-iframe {
     border: 0;
     width: 100%;
-    height: calc(100vh - 5em);
+    height: calc(100vh - 7em);
     overflow: auto;
 }

@@ -42,7 +42,7 @@ export class ImportIsop extends Component {
     parse_isop_courselist(li) {
         console.log(li);
         let cos=[];
-        li.forEach((co)=>{
+        li.forEach((co,idx)=>{
             let name=co.kcmc;
             cos.push(co.jsap
                 .map((info)=>({
@@ -54,6 +54,7 @@ export class ImportIsop extends Component {
                     begin_time: parseInt(info.kssj),
                     end_time: parseInt(info.jssj),
                     classroom: info.skjs,
+                    _skip_idx: idx,
                 }))
                 .filter((co)=>!isNaN(co.begin_time) && !isNaN(co.begin_week))
             );
@@ -109,7 +110,12 @@ export class ImportIsop extends Component {
     }
 
     do_import() {
-        let imported_courses=this.state.courses.filter((co)=>this.state.skipped_courses.indexOf(co.course_name)===-1);
+        let imported_courses=this.state.courses
+            .filter((co)=>this.state.skipped_courses.indexOf(co.course_name)===-1)
+            .map((co)=>{
+                let {_skip_idx, ...other}=co;
+                return other;
+            });
         this.props.setCourses(this.props.courses.concat(imported_courses));
         this.props.navigate(ROUTES.edit);
     }

@@ -59,7 +59,9 @@ export class ImportConfig extends Component {
             this._do_load(e)
                 .then((res)=>{
                     this.setState({
-                        courses: res,
+                        courses: res.map((co,idx)=>Object.assign({},co,{
+                            _skip_idx: idx,
+                        })),
                         skipped_courses: [],
                     });
                     e.onSuccess();
@@ -87,7 +89,12 @@ export class ImportConfig extends Component {
     }
 
     do_import() {
-        let imported_courses=this.state.courses.filter((co)=>this.state.skipped_courses.indexOf(co.course_name)===-1);
+        let imported_courses=this.state.courses
+            .filter((co)=>this.state.skipped_courses.indexOf(co.course_name)===-1)
+            .map((co)=>{
+                let {_skip_idx, ...other}=co;
+                return other;
+            });
         this.props.setCourses(this.props.courses.concat(imported_courses));
         this.props.navigate(ROUTES.edit);
     }

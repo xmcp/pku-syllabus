@@ -110,7 +110,7 @@ export class Edit extends Component {
     add_course() {
         let cos=this.props.courses.slice();
         cos.push({
-            course_name: '（自定义课程）',
+            course_name: '（自选课程）',
             begin_week: 1,
             end_week: 16,
             every: 'all',
@@ -200,7 +200,7 @@ export class Edit extends Component {
                     </Button>
                     &nbsp;
                     <Button onClick={this.add_course.bind(this)}>
-                        <Icon type="plus" /> 自定义课程
+                        <Icon type="plus" /> 自选课程
                     </Button>
                 </div>
             </div>

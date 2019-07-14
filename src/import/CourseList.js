@@ -9,8 +9,8 @@ export function CourseList(props) {
             dataSource={props.courses}
             renderItem={(co)=>(
                 <List.Item><Checkbox
-                    checked={props.skipped_courses.indexOf(co.course_name)===-1}
-                    onChange={()=>{props.toggle_course(co.course_name);}}
+                    checked={props.skipped_courses.indexOf(co._skip_idx)===-1}
+                    onChange={()=>{props.toggle_course(co._skip_idx);}}
                 >
                     {co.course_name} （{describe_time(co)} {co.classroom}）
                 </Checkbox></List.Item>

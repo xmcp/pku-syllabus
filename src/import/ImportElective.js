@@ -13,24 +13,30 @@ export class ImportElective extends Component {
         this.state={
             drawer_visible: false,
             courses: [],
-            skipped_courses: [], // course_name
+            skipped_courses: [],
         };
         this.paster_ref=React.createRef();
+        this.paster_ref_drawer=React.createRef();
     }
 
     clear_paster() {
-        this.paster_ref.current.textContent='';
-        this.do_load();
+        if(this.paster_ref.current)
+            this.paster_ref.current.textContent='';
+        if(this.paster_ref_drawer.current)
+            this.paster_ref_drawer.current.textContent='';
+        this.setState({
+            courses: [],
+            skipped_courses: [],
+        })
     }
 
-    _do_load() {
-        let dom=this.paster_ref.current;
+    _do_load(target) {
 
-        let table=dom.querySelector('.datagrid');
+        let table=target.querySelector('.datagrid');
         if(!table)
             throw new Error('找不到选课结果列表，请确保选中了整个表格！');
 
-        let co=Array.from(table.querySelectorAll('.datagrid-even, .datagrid-odd, .datagrid-all')).map((row)=>{
+        let co=Array.from(table.querySelectorAll('.datagrid-even, .datagrid-odd, .datagrid-all')).map((row,idx)=>{
             let name=row.querySelector('td:nth-child(1)').textContent;
 
             let info_elem=row.querySelector('td:nth-child(8)');
@@ -60,27 +66,32 @@ export class ImportElective extends Component {
                     begin_time: parseInt(begin_time),
                     end_time: parseInt(end_time),
                     classroom: classroom,
+                    _skip_idx: idx,
                 });
             });
 
             return timepieces;
         });
 
-        this.setState({
-            courses: [].concat.apply([],co),
-            skipped_courses: [],
-        });
+        co=[].concat.apply([],co);
+        if(co.length>0)
+            this.setState({
+                drawer_visible: false,
+                courses: co,
+                skipped_courses: [],
+            });
     }
 
-    do_load() {
+    do_load(e) {
+        e.persist();
         this.setState({
             courses: [],
             skipped_courses: [],
         },()=>{
             try {
-                this._do_load();
-            } catch(e) {
-                console.trace(e);
+                this._do_load(e.target);
+            } catch(error) {
+                console.trace(error);
             }
         });
     }
@@ -101,7 +112,12 @@ export class ImportElective extends Component {
     }
 
     do_import() {
-        let imported_courses=this.state.courses.filter((co)=>this.state.skipped_courses.indexOf(co.course_name)===-1);
+        let imported_courses=this.state.courses
+            .filter((co)=>this.state.skipped_courses.indexOf(co.course_name)===-1)
+            .map((co)=>{
+                let {_skip_idx, ...other}=co;
+                return other;
+            });
         this.props.setCourses(this.props.courses.concat(imported_courses));
         this.props.navigate(ROUTES.edit);
     }
@@ -150,7 +166,7 @@ export class ImportElective extends Component {
                     </p>
                     <div className="clearfix" />
                     <br />
-                    <div className="elective-paster" ref={this.paster_ref} onInput={this.do_load.bind(this)}
+                    <div className="elective-paster elective-paster-main" ref={this.paster_ref} onInput={this.do_load.bind(this)}
                          style={{display: loaded ? 'none' : 'block'}} contentEditable={!loaded}
                     />
                     {loaded &&
@@ -181,6 +197,9 @@ export class ImportElective extends Component {
                 >
                     <div className="elective-iframe-holder">
                         <iframe src="http://elective.pku.edu.cn" className="elective-iframe" />
+                        <div className="elective-paster elective-paster-drawer" ref={this.paster_ref_drawer} onInput={this.do_load.bind(this)}
+                             style={{display: loaded ? 'none' : 'block'}} contentEditable={!loaded}
+                        />
                     </div>
                 </Drawer>
             </div>
