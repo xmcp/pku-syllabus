@@ -1,6 +1,8 @@
 export const SEMESTER={
     name: '2019-2020 第一学期',
+    id: '2019-2020 sem1', // checked before importing
     begin_date: new Date(2019,9-1,9, 0,0,0,0),
+    weeks: 16,
     exclude_dates: [
         new Date(2019,9-1,13, 0,0,0,0), // 中秋
         new Date(2019,9-1,30, 0,0,0,0), // 国庆
@@ -13,4 +15,4 @@ export const SEMESTER={
     ]
 };
 
-export const DATA_VER='data_v1';
+export const DATA_VER='data_v2';

@@ -94,6 +94,7 @@ export class ExportIcs extends Component {
             timezone: 'Asia/Shanghai',
             description: JSON.stringify({
                 data_ver: DATA_VER,
+                semester_id: SEMESTER.id,
                 courses: this.props.courses,
             }),
         });

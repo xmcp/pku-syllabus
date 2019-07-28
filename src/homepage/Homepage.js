@@ -1,6 +1,7 @@
 import React, {Component, PureComponent} from 'react';
 import {PageHeader, Row, Col, Card, Icon, Button, Alert, Affix} from 'antd';
 import {ROUTES} from '../routes';
+import {SEMESTER} from '../config';
 
 export class Homepage extends Component {
     render() {
@@ -63,7 +64,10 @@ export class Homepage extends Component {
                         </Col>
                     </Row>
                     <br />
-                    <p><a onClick={()=>{this.props.navigate(ROUTES.about);}}>关于课表助手</a></p>
+                    <p>
+                        当前是 {SEMESTER.name} &nbsp;
+                        <a onClick={()=>{this.props.navigate(ROUTES.about);}}>关于课表助手</a>
+                    </p>
                 </div>
             </div>
         );

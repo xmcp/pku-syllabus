@@ -2,6 +2,7 @@ import React, {Component, PureComponent} from 'react';
 import {Table, Icon, Button, Popover, Input, InputNumber, Select, PageHeader, Row, Col, Affix} from 'antd';
 import {describe_time} from '../utils';
 import {ROUTES} from '../routes';
+import {SEMESTER} from '../config';
 
 const InputGroup=Input.Group;
 const {Option}=Select;
@@ -18,6 +19,21 @@ class CourseChanger extends Component {
         });
     }
 
+    validate(co) {
+        function isint(x) {
+            return Number.isInteger(x);
+        }
+        return (
+            isint(co.begin_time) && isint(co.end_time) &&
+            co.begin_time<=co.end_time && 1<=co.begin_time && co.end_time<=12 &&
+            isint(co.begin_week) && isint(co.end_week) &&
+            co.begin_week<=co.end_week && 1<=co.begin_week && co.end_week<=SEMESTER.weeks &&
+            isint(co.weekday) &&
+            1<=co.weekday && co.weekday<=7 &&
+            ['all','odd','even'].indexOf(co.every)!==-1
+        );
+    }
+
     do_save() { // todo: validate input
         let co=Object.assign({},this.props.course);
         Object.keys(this.inputs).forEach((k)=>{
@@ -26,10 +42,14 @@ class CourseChanger extends Component {
                 co[k]=parse(this.inputs[k]);
         });
         delete co['key'];
-        this.props.do_modify(co);
-        this.setState({
-            changed: false,
-        });
+        if(this.validate(co)) {
+            this.props.do_modify(co);
+            this.setState({
+                changed: false,
+            });
+        } else {
+            alert('输入无效');
+        }
     }
 
     render() {

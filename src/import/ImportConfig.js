@@ -2,7 +2,7 @@ import React, {Component, PureComponent} from 'react';
 import {ROUTES} from '../routes';
 import {Affix, PageHeader, Button, Upload, Icon} from 'antd';
 import {CourseList} from './CourseList';
-import {DATA_VER} from '../config';
+import {DATA_VER, SEMESTER} from '../config';
 
 const {Dragger}=Upload;
 
@@ -32,7 +32,13 @@ export class ImportConfig extends Component {
                         let json=JSON.parse(l.substr(13));
 
                         if(json.data_ver!==DATA_VER) {
-                            alert(`数据版本不匹配：文件版本 ${json.data_ver}，程序版本 ${DATA_VER}`);
+                            alert(`数据版本不匹配：文件版本 ${json.data_ver}，程序支持的版本 ${DATA_VER}`);
+                            reject();
+                            return;
+                        }
+
+                        if(json.semester_id!==SEMESTER.id) {
+                            alert(`学期名称不匹配：文件学期 ${json.semester_id}，当前学期 ${SEMESTER.id}`);
                             reject();
                             return;
                         }
