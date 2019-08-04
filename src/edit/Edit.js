@@ -132,7 +132,7 @@ export class Edit extends Component {
         cos.push({
             course_name: '（自选课程）',
             begin_week: 1,
-            end_week: 16,
+            end_week: SEMESTER.weeks,
             every: 'all',
             weekday: 1,
             begin_time: 1,
@@ -221,6 +221,10 @@ export class Edit extends Component {
                     &nbsp;
                     <Button onClick={this.add_course.bind(this)}>
                         <Icon type="plus" /> 自选课程
+                    </Button>
+                    &nbsp;
+                    <Button type="primary" onClick={()=>{this.props.navigate(ROUTES.export_ics);}}>
+                        <Icon type="check-square" /> 生成日历
                     </Button>
                 </div>
             </div>

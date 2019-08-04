@@ -76,8 +76,12 @@ export class ImportIsop extends Component {
                 })
                 .then(get_json)
                 .then((json)=>{
-                    if(json.success===false) // sb isop do not result `success` when success
-                        throw new Error(JSON.stringify(json));
+                    if(json.success===false) { // sb isop do not result `success` when success
+                        if(json.errCode && ['E01','E02','E03'].indexOf(json.errCode)!==-1)
+                            throw new Error('授权失败，请尝试去树洞注销再重新登录账号。'+JSON.stringify(json));
+                        else
+                            throw new Error(JSON.stringify(json));
+                    }
 
                     this.setState({
                         loading_status: 'done',
