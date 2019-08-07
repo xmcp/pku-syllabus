@@ -23,22 +23,6 @@ export class ImportIsop extends Component {
         this.do_load();
     }
 
-    get_isop_token() {
-        return new Promise((resolve,reject)=>{
-            let user_token=encodeURIComponent(localStorage['TOKEN']||'');
-            if(!user_token) reject('请前往树洞登录账号');
-
-            fetch(PKUHELPER_ROOT+'api_xmcp/score/get_isop_token?user_token='+user_token)
-                .then(get_json)
-                .then((json)=>{
-                    if(json.error!==null)
-                        throw new Error(json.error);
-                    resolve(json.token);
-                })
-                .catch(reject);
-        });
-    }
-
     parse_isop_courselist(li) {
         console.log(li);
         let cos=[];
@@ -68,12 +52,15 @@ export class ImportIsop extends Component {
         this.setState({
             loading_status: 'loading',
         },()=>{
-            this.get_isop_token()
-                .then((token)=>{
-                    token=token.substr(5);
-                    let arg=`user=${token}&appKey=${ISOP_APPKEY}&timestamp=${+new Date()}`;
-                    return fetch(PKUHELPER_ROOT+`isop_proxy/coursetableroom?${arg}&msg=${md5(arg+ISOP_APPCODE)}`);
-                })
+            let user_token=localStorage['TOKEN'];
+            if(!user_token) {
+                this.setState({
+                    loading_status: 'failed',
+                    error: '请前往树洞登录账号',
+                });
+                return;
+            }
+            fetch(PKUHELPER_ROOT+'api_xmcp/isop/coursetableroom?user_token='+encodeURIComponent(user_token))
                 .then(get_json)
                 .then((json)=>{
                     if(json.success===false) { // sb isop do not result `success` when success
