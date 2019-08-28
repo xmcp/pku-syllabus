@@ -31,21 +31,21 @@ export function SidebarComp(props) {
                     mode="inline"
                     inlineIndent={18}
                     selectedKeys={[props.current_route]}
-                    openKeys={['submenu-import','submenu-export']}
+                    openKeys={[ROUTES.homepage]}
                     onSelect={(e)=>{
                         props.navigate(e.key);
                     }}
             >
-                <Item key={ROUTES.homepage}>
-                    <Icon type="home" /> 开始
-                </Item>
                 <SubMenu
-                        key="submenu-import"
+                        key={ROUTES.homepage}
                         title={
                             <span>
                                 <Icon type="import" /> 导入课表
                             </span>
                         }
+                        onTitleClick={(e)=>{
+                            props.navigate(ROUTES.homepage);
+                        }}
                 >
                     <Item key={ROUTES.import_elective}>从选课系统</Item>
                     <Item key={ROUTES.import_isop}>从教务系统</Item>

@@ -1,0 +1,8 @@
+.hint-text {
+    opacity: .6;
+    line-height: 1.2em;
+}
+
+.hint-text p {
+    margin: .5em 0;
+}

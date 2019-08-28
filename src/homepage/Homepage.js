@@ -35,8 +35,7 @@ export class Homepage extends Component {
                                     <Icon type="right-circle" /> 选课系统
                                 </Button>
                                 <br /><br />
-                                <p>从 elective.pku.edu.cn 导入课表。</p>
-                                <p style={{fontWeight: 'bold', color: 'red'}}>选课结束（第三周）前请选择此项。</p>
+                                <p style={{fontWeight: 'bold', color: 'red'}}>选课结束（第三周）前请选择此项</p>
                             </Card>
                             <br />
                         </Col>
@@ -46,8 +45,7 @@ export class Homepage extends Component {
                                     <Icon type="right-circle" /> 教务系统
                                 </Button>
                                 <br /><br />
-                                <p>从教务系统的接口导入课表。</p>
-                                <p>请注意，数据录入可能有延迟。</p>
+                                <p>数据录入可能有延迟</p>
                             </Card>
                             <br />
                         </Col>
@@ -57,15 +55,14 @@ export class Homepage extends Component {
                                     <Icon type="right-circle" /> 日历文件
                                 </Button>
                                 <br /><br />
-                                <p>加载之前的日历文件。</p>
-                                <p>对本工具生成的日历进行编辑。</p>
+                                <p>对本工具生成的日历进行编辑</p>
                             </Card>
                             <br />
                         </Col>
                     </Row>
                     <br />
                     <p>
-                        当前是 {SEMESTER.name} &nbsp;
+                        当前是 {SEMESTER.name} /&nbsp;
                         <a onClick={()=>{this.props.navigate(ROUTES.about);}}>关于课表助手</a>
                     </p>
                 </div>

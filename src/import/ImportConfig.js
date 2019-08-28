@@ -124,9 +124,9 @@ export class ImportConfig extends Component {
                         <p className="ant-upload-drag-icon">
                             <Icon type="inbox" />
                         </p>
-                        <p className="ant-upload-text">点击加载或拖拽文件到这里</p>
+                        <p className="ant-upload-text">点击加载或拖拽到这里</p>
                         <p className="ant-upload-hint">
-                            请选择之前生成的日历文件以导入数据
+                            选择之前生成的日历文件以导入数据
                         </p>
                     </Dragger>
                     <br />

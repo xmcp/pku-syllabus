@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {Table, Icon, Button, Popover, Input, InputNumber, Select, PageHeader, Row, Col, Affix} from 'antd';
+import {Table, Icon, Button, Popover, Input, Popconfirm, Select, PageHeader, Affix} from 'antd';
 import {describe_time} from '../utils';
 import {ROUTES} from '../routes';
 import {SEMESTER} from '../config';
@@ -71,8 +71,8 @@ class CourseChanger extends Component {
                 <p><Input addonBefore="名称" defaultValue={co.course_name} onChange={change_meta('course_name')} /></p>
                 <br />
                 <InputGroup compact>
-                    <Input style={{width: '25%'}} type="number" prefix="第" defaultValue={co.begin_week} suffix="~" onChange={change_meta('begin_week')} />
-                    <Input style={{width: '25%'}} type="number" defaultValue={co.end_week} suffix="周" onChange={change_meta('end_week')} />
+                    <Input style={{width: '25%'}} type="tel" prefix="第" defaultValue={co.begin_week} suffix="~" onChange={change_meta('begin_week')} />
+                    <Input style={{width: '25%'}} type="tel" defaultValue={co.end_week} suffix="周" onChange={change_meta('end_week')} />
                     <Select style={{width: '25%'}} defaultValue={co.every} onChange={change_meta('every')}>
                         <Option value="all">每周</Option>
                         <Option value="odd">单周</Option>
@@ -90,8 +90,8 @@ class CourseChanger extends Component {
                 </InputGroup>
                 <br />
                 <InputGroup compact>
-                    <Input style={{width: '25%'}} type="number" prefix="第" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
-                    <Input style={{width: '25%'}} type="number" defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
+                    <Input style={{width: '25%'}} type="tel" prefix="第" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
+                    <Input style={{width: '25%'}} type="tel" defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
                     <Input style={{width: '50%'}} prefix="在" defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
                 </InputGroup>
                 <br />
@@ -143,8 +143,7 @@ export class Edit extends Component {
     }
 
     clear_courses() {
-        if(window.confirm('清空所有课程？'))
-            this.props.setCourses([]);
+        this.props.setCourses([]);
     }
 
     render() {
@@ -180,14 +179,22 @@ export class Edit extends Component {
                                 align: 'center',
                                 render: (_,co,idx)=>(
                                     <span>
-                                        <Button type="danger" size="small" onClick={this.delete_course_meta(idx)}>
-                                            <Icon type="delete" />
-                                        </Button>
+                                        <Popconfirm
+                                            placement="topLeft"
+                                            onConfirm={this.delete_course_meta(idx)}
+                                            title="删除此课程？"
+                                            okText="删除"
+                                            cancelText="取消"
+                                        >
+                                            <Button type="danger" size="small">
+                                                <Icon type="delete" />
+                                            </Button>
+                                        </Popconfirm>
                                         &nbsp;
                                         <Popover
                                                 key={`${this.props.courses.length},${idx}`} // refresh when courses are changed
                                                 trigger="click"
-                                                title="修改课程信息"
+                                                title="课程信息"
                                                 content={<CourseChanger course={co} do_modify={this.modify_course_meta(idx)} />}
                                                 placement="topLeft"
                                         >
@@ -215,9 +222,17 @@ export class Edit extends Component {
                         ]}
                     />
                     <br />
-                    <Button type="danger" onClick={this.clear_courses.bind(this)}>
-                        <Icon type="delete" /> 清空
-                    </Button>
+                    <Popconfirm
+                        placement="topLeft"
+                        onConfirm={this.clear_courses.bind(this)}
+                        title="清空所有课程？"
+                        okText="清空"
+                        cancelText="取消"
+                    >
+                        <Button type="danger">
+                            <Icon type="delete" /> 清空
+                        </Button>
+                    </Popconfirm>
                     &nbsp;
                     <Button onClick={this.add_course.bind(this)}>
                         <Icon type="plus" /> 自选课程

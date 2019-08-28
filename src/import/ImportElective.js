@@ -142,14 +142,12 @@ export class ImportElective extends Component {
                 <div className="main-margin">
                     <div className="elective-instruction">
                         <img src={elective_instruction} className="elective-instruction-img" />
-                        <p>
-                            你需要登录选课系统，
-                            点击“查看选课结果”。
-                        </p>
-                        <br />
-                        <p>然后选中从 “<code>查看选课结果</code>” 到 “<code>注：</code>” 之间的内容，</p>
-                        <p>确保选中<b>整个选课结果表格</b>（如右图），</p>
-                        <p>再复制粘贴到下面的文本框中。</p>
+                        <ol>
+                            <li>进入选课系统</li>
+                            <li>点击“查看选课结果”</li>
+                            <li>复制整个选课结果表格，如右图</li>
+                            <li>粘贴到下面</li>
+                        </ol>
                     </div>
                     <br />
                     <p>

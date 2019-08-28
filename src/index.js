@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {LocaleProvider} from 'antd';
+import {ConfigProvider} from 'antd';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 
 import App from './App';
@@ -8,8 +8,8 @@ import App from './App';
 import './index.css';
 
 ReactDOM.render(
-    <LocaleProvider locale={zhCN}>
+    <ConfigProvider locale={zhCN} autoInsertSpaceInButton={false}>
         <App />
-    </LocaleProvider> ,
+    </ConfigProvider> ,
     document.getElementById('root')
 );
