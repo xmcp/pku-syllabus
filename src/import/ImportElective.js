@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Icon, Affix, Drawer} from 'antd';
+import {PageHeader, Button, Icon, Affix} from 'antd';
 import {ROUTES} from '../routes';
 import {CourseList} from './CourseList';
 
@@ -11,19 +11,15 @@ export class ImportElective extends Component {
     constructor(props) {
         super(props);
         this.state={
-            drawer_visible: false,
             courses: [],
             skipped_courses: [],
         };
         this.paster_ref=React.createRef();
-        this.paster_ref_drawer=React.createRef();
     }
 
     clear_paster() {
         if(this.paster_ref.current)
             this.paster_ref.current.textContent='';
-        if(this.paster_ref_drawer.current)
-            this.paster_ref_drawer.current.textContent='';
         this.setState({
             courses: [],
             skipped_courses: [],
@@ -31,7 +27,6 @@ export class ImportElective extends Component {
     }
 
     _do_load(target) {
-
         let table=target.querySelector('.datagrid');
         if(!table)
             throw new Error('找不到选课结果列表，请确保选中了整个表格！');
@@ -83,7 +78,6 @@ export class ImportElective extends Component {
         co=[].concat.apply([],co);
         if(co.length>0)
             this.setState({
-                drawer_visible: false,
                 courses: co,
                 skipped_courses: skip_co,
             });
@@ -129,12 +123,6 @@ export class ImportElective extends Component {
         this.props.navigate(ROUTES.edit);
     }
 
-    show_drawer() {
-        this.setState({
-            drawer_visible: true,
-        });
-    }
-
     render() {
         let loaded=this.state.courses.length>0;
         return (
@@ -164,8 +152,8 @@ export class ImportElective extends Component {
                         &nbsp;&nbsp;
                         {loaded ?
                             <b>识别成功！</b> :
-                            <Button type="primary" onClick={this.show_drawer.bind(this)}>
-                                <Icon type="block" /> 进入选课系统
+                            <Button type="primary" onClick={()=>{window.open('http://elective.pku.edu.cn')}}>
+                                <Icon type="block" /> 打开选课系统
                             </Button>
                         }
                     </p>
@@ -183,30 +171,6 @@ export class ImportElective extends Component {
                         />
                     }
                 </div>
-                <Drawer
-                        title="请登录后复制选课结果"
-                        visible={this.state.drawer_visible}
-                        destroyOnClose={true}
-                        width="85vw"
-                        bodyStyle={{
-                            padding: 0,
-                            width: '85vw',
-                            overflow: 'auto',
-                            fontSize: 'unset',
-                        }}
-                        onClose={()=>{
-                            this.setState({
-                                drawer_visible: false,
-                            });
-                        }}
-                >
-                    <div className="elective-iframe-holder">
-                        <iframe src="http://elective.pku.edu.cn" className="elective-iframe" />
-                        <div className="elective-paster elective-paster-drawer" ref={this.paster_ref_drawer} onInput={this.do_load.bind(this)}
-                             style={{display: loaded ? 'none' : 'block'}} contentEditable={!loaded}
-                        />
-                    </div>
-                </Drawer>
             </div>
         );
     }
