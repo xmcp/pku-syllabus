@@ -36,6 +36,7 @@ export class ImportElective extends Component {
         if(!table)
             throw new Error('找不到选课结果列表，请确保选中了整个表格！');
 
+        let skip_co=[];
         let co=Array.from(table.querySelectorAll('.datagrid-even, .datagrid-odd, .datagrid-all')).map((row,idx)=>{
             let name=row.querySelector('td:nth-child(1)').textContent;
 
@@ -45,6 +46,12 @@ export class ImportElective extends Component {
             let infos=Array.from(info_elem.childNodes)
                 .filter((node)=>node.nodeName.toLowerCase()==='#text')
                 .map((node)=>node.textContent);
+
+            let status_elem=row.querySelector('td:nth-child(9)');
+            let status=status_elem?status_elem.textContent:'?';
+
+            if(status==='未选上')
+                skip_co.push(idx);
 
             let timepieces=[];
             infos.forEach((infostr)=>{
@@ -78,7 +85,7 @@ export class ImportElective extends Component {
             this.setState({
                 drawer_visible: false,
                 courses: co,
-                skipped_courses: [],
+                skipped_courses: skip_co,
             });
     }
 
@@ -142,8 +149,8 @@ export class ImportElective extends Component {
                 <div className="main-margin">
                     <div className="elective-instruction">
                         <img src={elective_instruction} className="elective-instruction-img" />
+                        <p>请您在选课系统中……</p>
                         <ol>
-                            <li>进入选课系统</li>
                             <li>点击“查看选课结果”</li>
                             <li>复制整个选课结果表格，如右图</li>
                             <li>粘贴到下面</li>
