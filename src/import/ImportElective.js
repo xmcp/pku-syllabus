@@ -120,7 +120,7 @@ export class ImportElective extends Component {
 
     do_import() {
         let imported_courses=this.state.courses
-            .filter((co)=>this.state.skipped_courses.indexOf(co.course_name)===-1)
+            .filter((co)=>this.state.skipped_courses.indexOf(co._skip_idx)===-1)
             .map((co)=>{
                 let {_skip_idx, ...other}=co;
                 return other;
