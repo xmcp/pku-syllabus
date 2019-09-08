@@ -162,6 +162,10 @@ export class ExportIcs extends Component {
                         <p>
                             部分 Android 系统支持该格式，请自行搜索你的系统如何导入日历。
                         </p>
+                        <p>
+                            若无法保存，建议使用最新版（Windows、Android 系统的）<b>Chrome</b> 或（macOS、iOS 系统的）<b>Safari</b> 浏览器访问。
+                            不要使用微信等软件的内嵌浏览器。
+                        </p>
                     </div>
                 </div>
             </div>

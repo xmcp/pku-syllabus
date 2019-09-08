@@ -162,13 +162,14 @@ export class ImportElective extends Component {
                     <div className="elective-paster elective-paster-main" ref={this.paster_ref} onInput={this.do_load.bind(this)}
                          style={{display: loaded ? 'none' : 'block'}} contentEditable={!loaded}
                     />
-                    {loaded &&
+                    {loaded ?
                         <CourseList
                             courses={this.state.courses}
                             skipped_courses={this.state.skipped_courses}
                             toggle_course={this.toggle_course.bind(this)}
                             do_import={this.do_import.bind(this)}
-                        />
+                        /> :
+                        <div className="not-imported-tip">正确粘贴后将自动识别</div>
                     }
                 </div>
             </div>
