@@ -121,7 +121,7 @@ export class ExportIcs extends Component {
                 interval: co.every==='all' ? 1 : 2,
                 until: then(get_week_start(co.end_week+1),-1),
                 byDay: ICAL_WEEKDAY[co.weekday],
-                exclude: SEMESTER.exclude_dates, // exclude these dates
+                exclude: SEMESTER.exclude_dates.map((d)=>new Date(+d+8*HOUR)),
                 excludeTimezone: 'Asia/Shanghai' // timezone of exclude
             });
         });
