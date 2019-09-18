@@ -1,18 +1,24 @@
 import React, {Component, PureComponent} from 'react';
-import {List, Checkbox, Button, Icon} from 'antd';
+import {List, Checkbox, Button, Icon, Tag} from 'antd';
 import {describe_time} from '../utils';
 
 export function CourseList(props) {
     return (
         <List
             bordered
+            size="small"
             dataSource={props.courses}
             renderItem={(co)=>(
                 <List.Item><Checkbox
                     checked={props.skipped_courses.indexOf(co._skip_idx)===-1}
                     onChange={()=>{props.toggle_course(co._skip_idx);}}
                 >
-                    {co.course_name} （{describe_time(co)} {co.classroom}）
+                    <b>{co.course_name}</b> &nbsp;
+                    <Tag color="blue">{describe_time(co)}</Tag>
+                    <Tag color="geekblue"><Icon type="environment" /> {co.classroom}</Tag>
+                    {!!co.desc &&
+                        <Tag>{co.desc}</Tag>
+                    }
                 </Checkbox></List.Item>
             )}
             header={

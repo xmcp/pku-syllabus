@@ -92,8 +92,10 @@ class CourseChanger extends Component {
                 <InputGroup compact>
                     <Input style={{width: '25%'}} type="tel" prefix="第" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
                     <Input style={{width: '25%'}} type="tel" defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
-                    <Input style={{width: '50%'}} prefix="在" defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
+                    <Input style={{width: '50%'}} prefix={<Icon type="environment" />} defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
                 </InputGroup>
+                <br />
+                <p><Input addonBefore="备注" defaultValue={co.desc} onChange={change_meta('desc')} /></p>
                 <br />
                 <Button type="primary" block onClick={this.do_save.bind(this)} disabled={!this.state.changed}>
                     {!this.state.changed && <Icon type="check-circle" />}
@@ -138,6 +140,7 @@ export class Edit extends Component {
             begin_time: 1,
             end_time: 2,
             classroom: '',
+            desc: '',
         });
         this.props.setCourses(cos);
     }
@@ -219,6 +222,10 @@ export class Edit extends Component {
                                 title: '教室',
                                 dataIndex: 'classroom',
                             },
+                            {
+                                title: '备注',
+                                dataIndex: 'desc',
+                            }
                         ]}
                     />
                     <br />

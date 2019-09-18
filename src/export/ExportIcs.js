@@ -109,6 +109,7 @@ export class ExportIcs extends Component {
                 end: then(first_date,CO_END_TIME[co.end_time]),
                 summary: co.course_name,
                 location: co.classroom,
+                description: co.desc,
             });
             if(this.state.alarm) {
                 evt.createAlarm({

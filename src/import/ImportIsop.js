@@ -38,6 +38,7 @@ export class ImportIsop extends Component {
                     begin_time: parseInt(info.kssj),
                     end_time: parseInt(info.jssj),
                     classroom: info.skjs,
+                    desc: '', // todo
                     _skip_idx: idx,
                 }))
                 .filter((co)=>!isNaN(co.begin_time) && !isNaN(co.begin_week))

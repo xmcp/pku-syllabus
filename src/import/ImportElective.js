@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Icon, Affix} from 'antd';
+import {PageHeader, Button, Icon, Affix, Checkbox} from 'antd';
 import {ROUTES} from '../routes';
 import {CourseList} from './CourseList';
 
@@ -10,9 +10,14 @@ import elective_instruction from './elective_instruction.jpg';
 export class ImportElective extends Component {
     constructor(props) {
         super(props);
+
+        this.DESC_DISP_NAMES=['教师','班号','课程类别','学分'];
+        this.DESC_KEY={teacher:'教师',classid:'班号',coursetype:'课程类别',credits:'学分'};
+
         this.state={
             courses: [],
             skipped_courses: [],
+            desc_checked: ['教师','班号'],
         };
         this.paster_ref=React.createRef();
     }
@@ -48,11 +53,23 @@ export class ImportElective extends Component {
             if(status==='未选上')
                 skip_co.push(idx);
 
+            let desc_items=[];
+            if(this.state.desc_checked.indexOf(this.DESC_KEY.teacher)!==-1)
+                desc_items.push(row.querySelector('td:nth-child(5)').textContent.replace(/[,，、].+$/,'等').replace(/\(.+\)/,''));
+            if(this.state.desc_checked.indexOf(this.DESC_KEY.classid)!==-1)
+                desc_items.push(row.querySelector('td:nth-child(6)').textContent+'班');
+            if(this.state.desc_checked.indexOf(this.DESC_KEY.coursetype)!==-1)
+                desc_items.push(row.querySelector('td:nth-child(2)').textContent);
+            if(this.state.desc_checked.indexOf(this.DESC_KEY.credits)!==-1)
+                desc_items.push(row.querySelector('td:nth-child(3)').textContent.replace(/\.0$/,'')+'学分');
+
+            let desc=desc_items.join('，');
+
             let timepieces=[];
             infos.forEach((infostr)=>{
                 let res=/^(\d+)~(\d+)周 (.)周周(.)(\d+)~(\d+)节\s*(.*)$/.exec(infostr);
                 if(!res) {
-                    console.log('ignoring infostr',infostr);
+                    //console.log('ignoring infostr',infostr);
                     return;
                 }
 
@@ -68,6 +85,7 @@ export class ImportElective extends Component {
                     begin_time: parseInt(begin_time),
                     end_time: parseInt(end_time),
                     classroom: classroom,
+                    desc: desc,
                     _skip_idx: idx,
                 });
             });
@@ -84,16 +102,25 @@ export class ImportElective extends Component {
     }
 
     do_load(e) {
-        e.persist();
+        if(e)
+            e.persist();
         this.setState({
             courses: [],
             skipped_courses: [],
         },()=>{
             try {
-                this._do_load(e.target);
+                this._do_load(this.paster_ref.current);
             } catch(error) {
                 console.trace(error);
             }
+        });
+    }
+
+    on_desc_change(li) {
+        this.setState({
+            desc_checked: li,
+        },()=>{
+            this.do_load();
         });
     }
 
@@ -163,12 +190,23 @@ export class ImportElective extends Component {
                          style={{display: loaded ? 'none' : 'block'}} contentEditable={!loaded}
                     />
                     {loaded ?
-                        <CourseList
-                            courses={this.state.courses}
-                            skipped_courses={this.state.skipped_courses}
-                            toggle_course={this.toggle_course.bind(this)}
-                            do_import={this.do_import.bind(this)}
-                        /> :
+                        <div>
+                            <div>
+                                备注：
+                                <Checkbox.Group
+                                    options={this.DESC_DISP_NAMES}
+                                    value={this.state.desc_checked}
+                                    onChange={this.on_desc_change.bind(this)}
+                                />
+                            </div>
+                            <br />
+                            <CourseList
+                                courses={this.state.courses}
+                                skipped_courses={this.state.skipped_courses}
+                                toggle_course={this.toggle_course.bind(this)}
+                                do_import={this.do_import.bind(this)}
+                            />
+                        </div> :
                         <div className="not-imported-tip">正确粘贴后将自动识别</div>
                     }
                 </div>

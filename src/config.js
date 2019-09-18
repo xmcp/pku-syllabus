@@ -15,4 +15,4 @@ export const SEMESTER={
     ]
 };
 
-export const DATA_VER='data_v2';
+export const DATA_VER='data_v3';
