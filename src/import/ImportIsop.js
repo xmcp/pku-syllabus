@@ -2,7 +2,7 @@ import React, {Component, PureComponent} from 'react';
 import {get_json} from '../infrastructure/functions';
 import {PKUHELPER_ROOT, ISOP_APPKEY, ISOP_APPCODE} from '../infrastructure/const';
 import md5 from 'md5';
-import {Spin, Affix, PageHeader, Button, Icon, Alert} from 'antd';
+import {Spin, Affix, PageHeader, Button, Icon, Alert, Checkbox} from 'antd';
 import {ROUTES} from '../routes';
 
 import './ImportIsop.css';
@@ -11,11 +11,17 @@ import {CourseList} from './CourseList';
 export class ImportIsop extends Component {
     constructor(props) {
         super(props);
+
+        this.DESC_DISP_NAMES=['班号','学分'];
+        this.DESC_KEY={classid:'班号',credits:'学分'};
+
+        this.isop_resp=null;
         this.state={
             loading_status: 'init',
             error: null,
             courses: [],
             skipped_courses: [],
+            desc_checked: [],
         };
     }
 
@@ -23,11 +29,21 @@ export class ImportIsop extends Component {
         this.do_load();
     }
 
-    parse_isop_courselist(li) {
+    parse_isop_courselist() {
+        let li=this.isop_resp;
         console.log(li);
         let cos=[];
         li.forEach((co,idx)=>{
             let name=co.kcmc;
+
+            let desc_items=[];
+            if(this.state.desc_checked.indexOf(this.DESC_KEY.classid)!==-1)
+                desc_items.push(co.jxbh+'班');
+            if(this.state.desc_checked.indexOf(this.DESC_KEY.credits)!==-1)
+                desc_items.push(co.xf.toFixed(1).replace(/\.0$/,'')+'学分');
+
+            let desc=desc_items.join('，');
+
             cos.push(co.jsap
                 .map((info)=>({
                     course_name: name,
@@ -38,7 +54,7 @@ export class ImportIsop extends Component {
                     begin_time: parseInt(info.kssj),
                     end_time: parseInt(info.jssj),
                     classroom: info.skjs,
-                    desc: '', // todo
+                    desc: desc,
                     _skip_idx: idx,
                 }))
                 .filter((co)=>!isNaN(co.begin_time) && !isNaN(co.begin_week))
@@ -71,9 +87,14 @@ export class ImportIsop extends Component {
                             throw new Error(JSON.stringify(json));
                     }
 
+                    if((!json.list || json.list.length===0) && !json.check) {
+                        throw new Error('ISOP没有返回课表信息');
+                    }
+
+                    this.isop_resp=json.list;
                     this.setState({
                         loading_status: 'done',
-                        courses: this.parse_isop_courselist(json.list),
+                        courses: this.parse_isop_courselist(),
                         skipped_courses: [],
                     });
                 })
@@ -83,6 +104,14 @@ export class ImportIsop extends Component {
                         error: ''+e,
                     });
                 });
+        });
+    }
+
+    on_desc_change(li) {
+        this.setState({
+            desc_checked: li,
+        },()=>{
+            this.parse_isop_courselist();
         });
     }
 
@@ -138,6 +167,15 @@ export class ImportIsop extends Component {
                         如果数据错误，说明本学期课表尚未录入，
                         请 <a onClick={()=>{this.props.navigate(ROUTES.import_elective);}}>从选课系统导入课表</a>
                     </span>} type="info" showIcon />
+                    <br />
+                    <div>
+                        备注：
+                        <Checkbox.Group
+                            options={this.DESC_DISP_NAMES}
+                            value={this.state.desc_checked}
+                            onChange={this.on_desc_change.bind(this)}
+                        />
+                    </div>
                     <br />
                     <CourseList
                         courses={this.state.courses}
