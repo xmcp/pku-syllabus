@@ -124,7 +124,11 @@ export class ImportIsop extends Component {
                 <div className="loading-frame">
                     <Alert message={this.state.error} type="error" showIcon />
                     <br />
-                    <p><Button type="primary" onClick={this.do_load.bind(this)}>重新加载</Button></p>
+                    <p>
+                        <Button type="primary" onClick={this.do_load.bind(this)}>重新加载</Button>
+                        &nbsp;
+                        <Button onClick={()=>{this.props.navigate(ROUTES.import_elective);}}>从选课系统导入课表</Button>
+                    </p>
                 </div>
             );
         else if(this.state.loading_status==='done')

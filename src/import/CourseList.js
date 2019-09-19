@@ -3,6 +3,12 @@ import {List, Checkbox, Button, Icon, Tag} from 'antd';
 import {describe_time} from '../utils';
 
 export function CourseList(props) {
+    let import_btn=(
+        <Button type="primary" size="large" block onClick={props.do_import}>
+            <Icon type="import" /> 导入所选课程
+        </Button>
+    );
+
     return (
         <List
             bordered
@@ -21,11 +27,8 @@ export function CourseList(props) {
                     }
                 </Checkbox></List.Item>
             )}
-            header={
-                    <Button type="primary" size="large" block onClick={props.do_import}>
-                        <Icon type="import" /> 导入所选课程
-                    </Button>
-            }
+            header={import_btn}
+            footer={import_btn}
         >
         </List>
     )
