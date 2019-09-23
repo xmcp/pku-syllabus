@@ -22,8 +22,8 @@ export function SidebarComp(props) {
                 top: 0,
                 paddingTop: '2em',
                 left: 0,
-                width: '200px',
             }}
+            width={170}
             trigger={null}
         >
             <Menu

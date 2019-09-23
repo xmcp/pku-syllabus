@@ -1,8 +1,10 @@
 import React, {Component, PureComponent} from 'react';
-import {Table, Icon, Button, Popover, Input, Popconfirm, Select, PageHeader, Affix} from 'antd';
+import {Table, Icon, Button, Popover, Input, Popconfirm, Select, PageHeader, Affix, Row, Col, Tag} from 'antd';
 import {describe_time} from '../utils';
 import {ROUTES} from '../routes';
 import {SEMESTER} from '../config';
+
+import './Edit.css';
 
 const InputGroup=Input.Group;
 const {Option}=Select;
@@ -34,7 +36,7 @@ class CourseChanger extends Component {
         );
     }
 
-    do_save() { // todo: validate input
+    do_save(fork=false) {
         let co=Object.assign({},this.props.course);
         Object.keys(this.inputs).forEach((k)=>{
             let parse=(typeof co[k]===typeof 1) ? parseInt : (x)=>x;
@@ -43,7 +45,7 @@ class CourseChanger extends Component {
         });
         delete co['key'];
         if(this.validate(co)) {
-            this.props.do_modify(co);
+            this.props.do_modify(co,fork);
             this.setState({
                 changed: false,
             });
@@ -97,10 +99,19 @@ class CourseChanger extends Component {
                 <br />
                 <p><Input addonBefore="备注" defaultValue={co.desc} onChange={change_meta('desc')} /></p>
                 <br />
-                <Button type="primary" block onClick={this.do_save.bind(this)} disabled={!this.state.changed}>
-                    {!this.state.changed && <Icon type="check-circle" />}
-                    保存
-                </Button>
+                <Row gutter={8}>
+                    <Col span={16}>
+                        <Button type="primary" block onClick={()=>this.do_save(false)} disabled={!this.state.changed}>
+                            {!this.state.changed && <Icon type="check-circle" />}
+                            保存
+                        </Button>
+                    </Col>
+                    <Col span={8}>
+                        <Button type="default" block onClick={()=>this.do_save(true)}>
+                            存为副本
+                        </Button>
+                    </Col>
+                </Row>
             </div>
         )
     }
@@ -121,10 +132,13 @@ export class Edit extends Component {
     }
 
     modify_course_meta(idx) {
-        return (co)=>{
+        return (co,fork)=>{
             console.log('modify',idx,co);
             let cos=this.props.courses.slice();
-            cos[idx]=co;
+            if(fork)
+                cos.splice(idx+1,0,co);
+            else
+                cos[idx]=co;
             this.props.setCourses(cos);
         }
     }
@@ -171,7 +185,7 @@ export class Edit extends Component {
                         dataSource={courses_with_key}
                         rowKey="key"
                         pagination={false}
-                        scroll={{x: 500}}
+                        scroll={{x: 550}}
                         size="small"
                         columns={[
                             {
@@ -211,20 +225,23 @@ export class Edit extends Component {
                             {
                                 title: '课程名称',
                                 dataIndex: 'course_name',
+                                render: (txt)=><span className="edit-course-name">{txt}</span>
                             },
                             {
                                 title: '时间',
                                 dataIndex: '',
                                 key: 'time',
-                                render: (_,co)=>describe_time(co),
+                                render: (txt)=><Tag color="blue">{describe_time(txt)}</Tag>,
                             },
                             {
                                 title: '教室',
                                 dataIndex: 'classroom',
+                                render: (txt)=>!!txt && <Tag color="geekblue">{txt}</Tag>,
                             },
                             {
                                 title: '备注',
                                 dataIndex: 'desc',
+                                render: (txt)=>!!txt && <Tag>{txt}</Tag>,
                             }
                         ]}
                     />

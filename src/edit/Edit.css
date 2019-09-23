@@ -1,0 +1,9 @@
+@media screen and (min-width: 769px) {
+    .edit-course-name {
+        font-weight: bold;
+    }
+}
+
+td .ant-tag {
+    margin-right: 0;
+}
