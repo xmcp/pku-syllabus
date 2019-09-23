@@ -21,7 +21,7 @@ export class ImportIsop extends Component {
             error: null,
             courses: [],
             skipped_courses: [],
-            desc_checked: [],
+            desc_checked: ['班号'],
         };
     }
 
@@ -40,7 +40,7 @@ export class ImportIsop extends Component {
             if(this.state.desc_checked.indexOf(this.DESC_KEY.classid)!==-1)
                 desc_items.push(co.jxbh+'班');
             if(this.state.desc_checked.indexOf(this.DESC_KEY.credits)!==-1)
-                desc_items.push(co.xf.toFixed(1).replace(/\.0$/,'')+'学分');
+                desc_items.push(parseFloat(co.xf).toFixed(1).replace(/\.0$/,'')+'学分');
 
             let desc=desc_items.join('，');
 
@@ -111,7 +111,9 @@ export class ImportIsop extends Component {
         this.setState({
             desc_checked: li,
         },()=>{
-            this.parse_isop_courselist();
+            this.setState({
+                courses: this.parse_isop_courselist(),
+            })
         });
     }
 

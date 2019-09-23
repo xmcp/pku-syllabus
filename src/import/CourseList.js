@@ -21,7 +21,9 @@ export function CourseList(props) {
                 >
                     <b>{co.course_name}</b> &nbsp;
                     <Tag color="blue">{describe_time(co)}</Tag>
-                    <Tag color="geekblue"><Icon type="environment" /> {co.classroom}</Tag>
+                    {!!co.classroom &&
+                        <Tag color="geekblue"><Icon type="environment" /> {co.classroom}</Tag>
+                    }
                     {!!co.desc &&
                         <Tag>{co.desc}</Tag>
                     }
