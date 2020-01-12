@@ -7,6 +7,7 @@ import {ROUTES} from '../routes';
 
 import './ImportIsop.css';
 import {CourseList} from './CourseList';
+import {LoginPopup} from '../infrastructure/widgets';
 
 export class ImportIsop extends Component {
     constructor(props) {
@@ -26,6 +27,11 @@ export class ImportIsop extends Component {
     }
 
     componentDidMount() {
+        this.do_load();
+    }
+
+    on_got_token(token) {
+        localStorage['TOKEN']=token;
         this.do_load();
     }
 
@@ -72,8 +78,7 @@ export class ImportIsop extends Component {
             let user_token=localStorage['TOKEN'];
             if(!user_token) {
                 this.setState({
-                    loading_status: 'failed',
-                    error: '请前往树洞登录账号',
+                    loading_status: 'login_required',
                 });
                 return;
             }
@@ -81,8 +86,12 @@ export class ImportIsop extends Component {
                 .then(get_json)
                 .then((json)=>{
                     if(json.success===false) { // sb isop do not result `success` when success
-                        if(json.errCode && ['E01','E02','E03'].indexOf(json.errCode)!==-1)
-                            throw new Error('授权失败，请尝试去树洞注销再重新登录账号。'+JSON.stringify(json));
+                        if(json.errCode && ['E01','E02','E03'].indexOf(json.errCode)!==-1) { // need re-login
+                            this.setState({
+                                loading_status: 'login_required',
+                            });
+                            return;
+                        }
                         else
                             throw new Error(JSON.stringify(json));
                     }
@@ -185,6 +194,15 @@ export class ImportIsop extends Component {
                         toggle_course={this.toggle_course.bind(this)}
                         do_import={this.do_import.bind(this)}
                     />
+                </div>
+            );
+        else if(this.state.loading_status==='login_required')
+            return (
+                <div className="loading-frame">
+                    授权失效，请&nbsp;
+                    <LoginPopup token_callback={this.on_got_token.bind(this)}>{(do_popup)=>(
+                        <Button onClick={do_popup} type="primary">登录 PKU Helper</Button>
+                    )}</LoginPopup>
                 </div>
             );
         else
