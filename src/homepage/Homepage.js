@@ -41,11 +41,12 @@ export class Homepage extends Component {
                         </Col>
                         <Col md={8}>
                             <Card title={<span><Icon type="api" /> ISOP</span>}>
-                                <Button size="large" type="primary" block onClick={()=>{this.props.navigate(ROUTES.import_isop);}}>
+                                <Button size="large" type="primary" disabled={true} block onClick={()=>{/*this.props.navigate(ROUTES.import_isop);*/}}>
                                     <Icon type="right-circle" /> 教务系统
                                 </Button>
                                 <br /><br />
-                                <p>数据录入可能有延迟</p>
+                                {/*<p>数据录入可能有延迟</p>*/}
+                                <p>┓( ´∀` )┏</p>
                             </Card>
                             <br />
                         </Col>

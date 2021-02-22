@@ -1,18 +1,11 @@
 export const SEMESTER={
-    name: '2020-2021 第一学期',
-    id: '2020-2021 sem1', // checked before importing
-    begin_date: new Date(2020,9-1,21, 0,0,0,0),
-    weeks: 16,
+    name: '2020-2021 第二学期',
+    id: '2020-2021 sem2', // checked before importing
+    begin_date: new Date(2021,3-1,8, 0,0,0,0),
+    weeks: 15,
     exclude_dates: [
-        new Date(2020,10-1,1, 0,0,0,0), // 国庆&中秋
-        new Date(2020,10-1,2, 0,0,0,0),
-        new Date(2020,10-1,3, 0,0,0,0),
-        new Date(2020,10-1,4, 0,0,0,0),
-        new Date(2020,10-1,5, 0,0,0,0),
-        new Date(2020,10-1,6, 0,0,0,0),
-        new Date(2020,10-1,7, 0,0,0,0),
-        new Date(2020,10-1,8, 0,0,0,0),
-        new Date(2020,10-1,17, 0,0,0,0), // 运动会
+        new Date(2021,4-1,30, 0,0,0,0), // 4 月 30 日，补休，全校停课。
+        new Date(2021,5-1,1, 0,0,0,0), // 5 月 1 日劳动节，放假，全校停课
     ]
 };
 

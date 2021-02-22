@@ -20,7 +20,7 @@ export function SidebarComp(props) {
                 height: '100vh',
                 position: 'fixed',
                 top: 0,
-                paddingTop: '2em',
+                // paddingTop: '2em',
                 left: 0,
             }}
             width={170}
@@ -48,7 +48,7 @@ export function SidebarComp(props) {
                         }}
                 >
                     <Item key={ROUTES.import_elective}>从选课系统</Item>
-                    <Item key={ROUTES.import_isop}>从教务系统</Item>
+                    {/*<Item key={ROUTES.import_isop}>从教务系统</Item>*/}
                     <Item key={ROUTES.import_config}>从日历文件</Item>
                 </SubMenu>
                 <Item key={ROUTES.edit}>
