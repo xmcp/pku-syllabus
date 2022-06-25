@@ -36,6 +36,9 @@ export function SidebarComp(props) {
                         props.navigate(e.key);
                     }}
             >
+                <Item key={ROUTES.homepage}>
+                    <Icon type="setting" /> 学期配置
+                </Item>
                 <SubMenu
                         key={ROUTES.homepage}
                         title={

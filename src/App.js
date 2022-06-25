@@ -53,7 +53,7 @@ class App extends Component {
                     <SidebarComp current_route={this.state.route} navigate={this.navigate_bound} courses={this.state.courses} />
                     <Content className="next-to-sider">
                         <CurrentNode navigate={this.navigate_bound} courses={this.state.courses} setCourses={this.set_courses_bound} />
-                        <FooterComp />
+                        <FooterComp navigate={this.navigate_bound} />
                     </Content>
                 </Layout>
             </div>

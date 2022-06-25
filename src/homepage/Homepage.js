@@ -64,7 +64,7 @@ export class Homepage extends Component {
                     <br />
                     <p>
                         当前是 {SEMESTER.name} /&nbsp;
-                        <a onClick={()=>{this.props.navigate(ROUTES.about);}}>关于课表助手</a>
+
                     </p>
                 </div>
             </div>
