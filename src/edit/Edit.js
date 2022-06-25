@@ -3,7 +3,7 @@ import {CheckCircleOutlined, CheckSquareOutlined, DeleteOutlined, EnvironmentOut
 import {Table, Button, Popover, Input, Popconfirm, Select, PageHeader, Affix, Row, Col, Tag} from 'antd';
 import {describe_time} from '../utils';
 import {ROUTES} from '../routes';
-import {SEMESTER} from '../config';
+import {WEEKS_NUM} from '../config';
 
 import './Edit.css';
 
@@ -30,7 +30,7 @@ class CourseChanger extends Component {
             isint(co.begin_time) && isint(co.end_time) &&
             co.begin_time<=co.end_time && 1<=co.begin_time && co.end_time<=12 &&
             isint(co.begin_week) && isint(co.end_week) &&
-            co.begin_week<=co.end_week && 1<=co.begin_week && co.end_week<=SEMESTER.weeks &&
+            co.begin_week<=co.end_week && 1<=co.begin_week &&
             isint(co.weekday) &&
             1<=co.weekday && co.weekday<=7 &&
             ['all','odd','even'].indexOf(co.every)!==-1
@@ -149,7 +149,7 @@ export class Edit extends Component {
         cos.push({
             course_name: '（自选课程）',
             begin_week: 1,
-            end_week: SEMESTER.weeks,
+            end_week: WEEKS_NUM,
             every: 'all',
             weekday: 1,
             begin_time: 1,

@@ -5,3 +5,9 @@ export function describe_time(co) {
         ` ${co.begin_time}~${co.end_time}节`
     );
 }
+
+export function semester_key(sem) {
+    if(sem===null)
+        return '(null)';
+    return (`${sem.getFullYear()}/${sem.getMonth()+1}/${sem.getDate()}`);
+}

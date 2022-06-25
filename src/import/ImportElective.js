@@ -165,7 +165,7 @@ export class ImportElective extends Component {
                 <div className="main-margin">
                     <div className="elective-instruction">
                         <img src={elective_instruction} className="elective-instruction-img" />
-                        <p>请您在选课系统中……</p>
+                        <p>请在选课系统中……</p>
                         <ol>
                             <li>点击“查看选课结果”</li>
                             <li>复制整个选课结果表格，如右图</li>

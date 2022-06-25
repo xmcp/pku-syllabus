@@ -1,9 +1,10 @@
 import React, {Component, PureComponent} from 'react';
 import {ROUTES} from '../routes';
 import {InboxOutlined} from '@ant-design/icons';
-import {Affix, PageHeader, Button, Upload} from 'antd';
+import {Affix, PageHeader, Button, Upload, Alert} from 'antd';
 import {CourseList} from './CourseList';
-import {DATA_VER, SEMESTER} from '../config';
+import {DATA_VER} from '../config';
+import {semester_key} from '../utils';
 
 const {Dragger}=Upload;
 
@@ -38,10 +39,13 @@ export class ImportConfig extends Component {
                             return;
                         }
 
-                        if(json.semester_id!==SEMESTER.id) {
-                            alert(`学期名称不匹配：文件学期 ${json.semester_id}，当前学期 ${SEMESTER.id}`);
-                            reject();
-                            return;
+                        if(json.semester_id!==semester_key(this.props.semester)) {
+                            if(!window.confirm(
+                                `学期不匹配：文件中的学期 ${json.semester_id}，当前学期 ${semester_key(this.props.semester)}。\n仍然导入吗？`
+                            )) {
+                                reject();
+                                return;
+                            }
                         }
 
                         resolve(json.courses);
@@ -107,10 +111,20 @@ export class ImportConfig extends Component {
     }
 
     render() {
+        if(!this.props.semester) {
+            return (
+                <Alert
+                    type="error" showIcon
+                    message="请先设置开学时间"
+                    action={<Button onClick={()=>this.props.navigate(ROUTES.homepage)}>前往学期配置</Button>}
+                />
+            );
+        }
+
         return (
             <div>
                 <Affix offsetTop={0}>
-                    <PageHeader ghost={false} title="加载日历文件" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
+                    <PageHeader ghost={false} title="编辑日历文件" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
                         this.props.courses.length>0 && <Button onClick={()=>{this.props.navigate(ROUTES.edit);}}>
                             编辑器
                         </Button>
@@ -125,9 +139,9 @@ export class ImportConfig extends Component {
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>
-                        <p className="ant-upload-text">点击加载或拖拽到这里</p>
+                        <p className="ant-upload-text">点击选择.ICS文件或拖拽到这里</p>
                         <p className="ant-upload-hint">
-                            选择之前生成的日历文件以导入数据
+                            从之前生成的日历中导入数据
                         </p>
                     </Dragger>
                     <br />

@@ -2,10 +2,11 @@ import React, {Component, PureComponent} from 'react';
 import {DownloadOutlined} from '@ant-design/icons';
 import {PageHeader, Button, Input, Affix, Alert} from 'antd';
 import ical from 'ical-generator';
-import {SEMESTER, DATA_VER} from '../config';
+import {DATA_VER} from '../config';
 import {ROUTES} from '../routes';
 
 import './ExportIcs.css';
+import {semester_key} from '../utils';
 
 const MIN=60*1000; // ms
 const HOUR=60*MIN;
@@ -56,14 +57,13 @@ function then(date,delta_ms) {
     return new Date(+date+delta_ms);
 }
 
-function get_week_start(wk) {
-    let t=SEMESTER.begin_date;
-    t=then(t,WEEK*(wk-1));
+function get_week_start(wk, sem) {
+    let t=then(sem, WEEK*(wk-1));
     return t;
 }
 
-function get_first_date(co) {
-    let t=get_week_start(co.begin_week);
+function get_first_date(co, sem) {
+    let t=get_week_start(co.begin_week, sem);
     t=then(t,DAY*(co.weekday-1));
     if(
         (co.every==='odd' && co.begin_week%2===0) ||
@@ -97,13 +97,13 @@ export class ExportIcs extends Component {
             timezone: 'Asia/Shanghai',
             description: JSON.stringify({
                 data_ver: DATA_VER,
-                semester_id: SEMESTER.id,
+                semester_id: semester_key(this.props.semester),
                 courses: this.props.courses,
             }),
         });
 
         this.props.courses.forEach((co)=>{
-            let first_date=get_first_date(co);
+            let first_date=get_first_date(co, this.props.semester);
 
             let evt=cal.createEvent({
                 start: then(first_date,CO_BEGIN_TIME[co.begin_time]),
@@ -121,9 +121,9 @@ export class ExportIcs extends Component {
             evt.repeating({
                 freq: 'WEEKLY',
                 interval: co.every==='all' ? 1 : 2,
-                until: then(get_week_start(co.end_week+1),-1),
+                until: then(get_week_start(co.end_week+1, this.props.semester),-1),
                 byDay: ICAL_WEEKDAY[co.weekday],
-                exclude: SEMESTER.exclude_dates.map((d)=>new Date(+d+8*HOUR)),
+                exclude: [],
                 excludeTimezone: 'Asia/Shanghai' // timezone of exclude
             });
         });
@@ -132,8 +132,14 @@ export class ExportIcs extends Component {
     }
 
     render() {
-        function format_date(d) {
-            return `${d.getMonth()+1}月${d.getDate()}日`
+        if(!this.props.semester) {
+             return (
+                <Alert
+                    type="error" showIcon
+                    message="请先设置开学时间"
+                    action={<Button onClick={()=>this.props.navigate(ROUTES.homepage)}>前往学期配置</Button>}
+                />
+             );
         }
 
         return (
@@ -143,9 +149,11 @@ export class ExportIcs extends Component {
                 </Affix>
                 <div className="main-margin">
                     <Alert
-                        type="info"
-                        message={"当前学期："+SEMESTER.name}
-                        description={"第一周开始于 "+format_date(SEMESTER.begin_date)}
+                        type="info" showIcon
+                        message={"第一周开始于 "+semester_key(this.props.semester)}
+                        description={<>
+                            如不正确请 <a onClick={()=>this.props.navigate(ROUTES.homepage)}>修改学期配置</a>
+                        </>}
                     />
                     <br />
                     <p><Input type="number" addonBefore="提醒：上课前" placeholder="（不提醒）" addonAfter="分钟"
@@ -158,10 +166,8 @@ export class ExportIcs extends Component {
                     <br /><br />
                     <div className="hint-text">
                         <p>
-                            生成的 iCalendar (.ICS) 文件属于通用日历格式，
-                            可直接导入到 Windows 10 日历 / macOS 日历 / iOS 日历 / Outlook / Google Calendar 等程序中。
-                        </p>
-                        <p>
+                            将生成 iCalendar (.ICS) 格式日历，
+                            可导入到 Windows、macOS、iOS 系统日历和 Outlook、Google Calendar 等程序中。
                             部分 Android 系统支持该格式，请自行搜索你的系统如何导入日历。
                         </p>
                         <p>

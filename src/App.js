@@ -16,6 +16,7 @@ class App extends Component {
         this.state={
             route: ROUTES.homepage,
             courses: [],
+            semester: null,
         };
         this.navigate_bound=this.navigate.bind(this);
         this.set_courses_bound=this.set_courses.bind(this);
@@ -37,10 +38,15 @@ class App extends Component {
         window.scrollTo(0,0);
     }
 
-    set_courses(co) {
-        this.setState({
-            courses: co,
-        });
+    set_courses(co, sem) {
+        if(co)
+            this.setState({
+                courses: co,
+            });
+        if(sem)
+            this.setState({
+                semester: sem,
+            });
     }
 
     render() {
@@ -52,7 +58,7 @@ class App extends Component {
                 <Layout style={{background: 'transparent'}}>
                     <SidebarComp current_route={this.state.route} navigate={this.navigate_bound} courses={this.state.courses} />
                     <Content className="next-to-sider">
-                        <CurrentNode navigate={this.navigate_bound} courses={this.state.courses} setCourses={this.set_courses_bound} />
+                        <CurrentNode navigate={this.navigate_bound} courses={this.state.courses} semester={this.state.semester} setCourses={this.set_courses_bound} />
                         <FooterComp navigate={this.navigate_bound} />
                     </Content>
                 </Layout>

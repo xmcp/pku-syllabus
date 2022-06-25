@@ -67,9 +67,6 @@ export function SidebarComp(props) {
                 <Item key={ROUTES.export_ics}>
                     <CheckSquareOutlined /> 生成日历
                 </Item>
-                <Item key={ROUTES.about}>
-                    <InfoCircleOutlined /> 关于
-                </Item>
             </Menu>
         </Sider>
     );
