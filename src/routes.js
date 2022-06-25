@@ -28,6 +28,6 @@ export const PAGE={
 
 export function RouteNotFound(props) {
     return (
-        <PageHeader title="Not Found" onBack={()=>{props.navigate(ROUTES.homepage);}} />
+        <PageHeader ghost={false} title="Not Found" onBack={()=>{props.navigate(ROUTES.homepage);}} />
     );
 }

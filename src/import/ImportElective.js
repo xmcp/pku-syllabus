@@ -1,5 +1,6 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Icon, Affix, Checkbox} from 'antd';
+import {BlockOutlined, DeleteOutlined} from '@ant-design/icons';
+import {PageHeader, Button, Affix, Checkbox} from 'antd';
 import {ROUTES} from '../routes';
 import {CourseList} from './CourseList';
 
@@ -155,8 +156,8 @@ export class ImportElective extends Component {
         return (
             <div>
                 <Affix offsetTop={0}>
-                    <PageHeader title="从选课系统导入课表" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
-                        this.props.courses.length>0 && <Button size="small" onClick={()=>{this.props.navigate(ROUTES.edit);}}>
+                    <PageHeader ghost={false} title="从选课系统导入课表" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
+                        this.props.courses.length>0 && <Button onClick={()=>{this.props.navigate(ROUTES.edit);}}>
                             编辑器
                         </Button>
                     } />
@@ -173,14 +174,14 @@ export class ImportElective extends Component {
                     </div>
                     <br />
                     <p>
-                        <Button type="danger" onClick={()=>{this.clear_paster();}}>
-                            <Icon type="delete" /> 重置
+                        <Button danger onClick={()=>{this.clear_paster();}}>
+                            <DeleteOutlined /> 重置
                         </Button>
                         &nbsp;&nbsp;
                         {loaded ?
                             <b>识别成功！</b> :
                             <Button type="primary" onClick={()=>{window.open('http://elective.pku.edu.cn')}}>
-                                <Icon type="block" /> 打开选课系统
+                                <BlockOutlined /> 打开选课系统
                             </Button>
                         }
                     </p>

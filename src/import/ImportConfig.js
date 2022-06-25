@@ -1,6 +1,7 @@
 import React, {Component, PureComponent} from 'react';
 import {ROUTES} from '../routes';
-import {Affix, PageHeader, Button, Upload, Icon} from 'antd';
+import {InboxOutlined} from '@ant-design/icons';
+import {Affix, PageHeader, Button, Upload} from 'antd';
 import {CourseList} from './CourseList';
 import {DATA_VER, SEMESTER} from '../config';
 
@@ -109,8 +110,8 @@ export class ImportConfig extends Component {
         return (
             <div>
                 <Affix offsetTop={0}>
-                    <PageHeader title="加载日历文件" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
-                        this.props.courses.length>0 && <Button size="small" onClick={()=>{this.props.navigate(ROUTES.edit);}}>
+                    <PageHeader ghost={false} title="加载日历文件" onBack={()=>{this.props.navigate(ROUTES.homepage);}} extra={
+                        this.props.courses.length>0 && <Button onClick={()=>{this.props.navigate(ROUTES.edit);}}>
                             编辑器
                         </Button>
                     } />
@@ -122,7 +123,7 @@ export class ImportConfig extends Component {
                             showUploadList={false}
                     >
                         <p className="ant-upload-drag-icon">
-                            <Icon type="inbox" />
+                            <InboxOutlined />
                         </p>
                         <p className="ant-upload-text">点击加载或拖拽到这里</p>
                         <p className="ant-upload-hint">
@@ -140,6 +141,6 @@ export class ImportConfig extends Component {
                     }
                 </div>
             </div>
-        )
+        );
     }
 }

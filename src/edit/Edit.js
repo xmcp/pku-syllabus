@@ -1,5 +1,6 @@
 import React, {Component, PureComponent} from 'react';
-import {Table, Icon, Button, Popover, Input, Popconfirm, Select, PageHeader, Affix, Row, Col, Tag} from 'antd';
+import {CheckCircleOutlined, CheckSquareOutlined, DeleteOutlined, EnvironmentOutlined, FormOutlined, HomeOutlined, PlusOutlined} from '@ant-design/icons';
+import {Table, Button, Popover, Input, Popconfirm, Select, PageHeader, Affix, Row, Col, Tag} from 'antd';
 import {describe_time} from '../utils';
 import {ROUTES} from '../routes';
 import {SEMESTER} from '../config';
@@ -94,7 +95,7 @@ class CourseChanger extends Component {
                 <InputGroup compact>
                     <Input style={{width: '25%'}} type="tel" prefix="第" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
                     <Input style={{width: '25%'}} type="tel" defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
-                    <Input style={{width: '50%'}} prefix={<Icon type="environment" />} defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
+                    <Input style={{width: '50%'}} prefix={<EnvironmentOutlined />} defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
                 </InputGroup>
                 <br />
                 <p><Input addonBefore="备注" defaultValue={co.desc} onChange={change_meta('desc')} /></p>
@@ -102,7 +103,7 @@ class CourseChanger extends Component {
                 <Row gutter={8}>
                     <Col span={16}>
                         <Button type="primary" block onClick={()=>this.do_save(false)} disabled={!this.state.changed}>
-                            {!this.state.changed && <Icon type="check-circle" />}
+                            {!this.state.changed && <CheckCircleOutlined />}
                             保存
                         </Button>
                     </Col>
@@ -113,7 +114,7 @@ class CourseChanger extends Component {
                     </Col>
                 </Row>
             </div>
-        )
+        );
     }
 }
 
@@ -170,11 +171,12 @@ export class Edit extends Component {
             <div>
                 <Affix offsetTop={0}>
                     <PageHeader
+                        ghost={false}
                         title="编辑课表"
-                        backIcon={<Icon type="home" />}
+                        backIcon={<HomeOutlined />}
                         onBack={()=>{this.props.navigate(ROUTES.homepage)}}
                         extra={
-                            <Button type="primary" size="small" onClick={()=>{this.props.navigate(ROUTES.export_ics);}}>
+                            <Button type="primary" onClick={()=>{this.props.navigate(ROUTES.export_ics);}}>
                                 生成日历
                             </Button>
                         }
@@ -203,8 +205,8 @@ export class Edit extends Component {
                                             okText="删除"
                                             cancelText="取消"
                                         >
-                                            <Button type="danger" size="small">
-                                                <Icon type="delete" />
+                                            <Button danger size="small">
+                                                <DeleteOutlined />
                                             </Button>
                                         </Popconfirm>
                                         &nbsp;
@@ -216,7 +218,7 @@ export class Edit extends Component {
                                                 placement="topLeft"
                                         >
                                             <Button size="small">
-                                                <Icon type="form" />
+                                                <FormOutlined />
                                             </Button>
                                         </Popover>
                                     </span>
@@ -253,20 +255,20 @@ export class Edit extends Component {
                         okText="清空"
                         cancelText="取消"
                     >
-                        <Button type="danger">
-                            <Icon type="delete" /> 清空
+                        <Button danger>
+                            <DeleteOutlined /> 清空
                         </Button>
                     </Popconfirm>
                     &nbsp;
                     <Button onClick={this.add_course.bind(this)}>
-                        <Icon type="plus" /> 自选课程
+                        <PlusOutlined /> 自选课程
                     </Button>
                     &nbsp;
                     <Button type="primary" onClick={()=>{this.props.navigate(ROUTES.export_ics);}}>
-                        <Icon type="check-square" /> 生成日历
+                        <CheckSquareOutlined /> 生成日历
                     </Button>
                 </div>
             </div>
-        )
+        );
     }
 }

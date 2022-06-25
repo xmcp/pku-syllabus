@@ -1,17 +1,24 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Row, Col, Card, Icon, Button, Alert, Affix} from 'antd';
+import {ApiOutlined, CalendarOutlined, ChromeOutlined, RightCircleOutlined} from '@ant-design/icons';
+import {PageHeader, Row, Col, Card, Button, Alert, Affix, DatePicker} from 'antd';
 import {ROUTES} from '../routes';
 import {SEMESTER} from '../config';
 
 export class Homepage extends Component {
+    to_moment(date) {
+        if(date===null)
+            return null;
+        else
+            return moment(date);
+    }
     render() {
         let IS_WEBVIEW=/MicroMessenger\/|QQ\//.test(navigator.userAgent);
 
         return (
             <div>
                 <Affix offsetTop={0}>
-                    <PageHeader title="课表助手" subTitle="帮你将课表保存到日历" extra={
-                        this.props.courses.length>0 && <Button size="small" onClick={()=>{this.props.navigate(ROUTES.edit);}}>
+                    <PageHeader ghost={false} title="课表助手" subTitle="帮你将课表保存到日历" extra={
+                        this.props.courses.length>0 && <Button onClick={()=>{this.props.navigate(ROUTES.edit);}}>
                             编辑器
                         </Button>
                     } />

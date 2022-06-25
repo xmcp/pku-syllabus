@@ -1,11 +1,12 @@
 import React, {Component, PureComponent} from 'react';
-import {List, Checkbox, Button, Icon, Tag} from 'antd';
+import {EnvironmentOutlined, ImportOutlined} from '@ant-design/icons';
+import {List, Checkbox, Button, Tag} from 'antd';
 import {describe_time} from '../utils';
 
 export function CourseList(props) {
     let import_btn=(
         <Button type="primary" size="large" block onClick={props.do_import}>
-            <Icon type="import" /> 导入所选课程
+            <ImportOutlined /> 导入所选课程
         </Button>
     );
 
@@ -22,7 +23,7 @@ export function CourseList(props) {
                     <b>{co.course_name}</b> &nbsp;
                     <Tag color="blue">{describe_time(co)}</Tag>
                     {!!co.classroom &&
-                        <Tag color="geekblue"><Icon type="environment" /> {co.classroom}</Tag>
+                        <Tag color="geekblue"><EnvironmentOutlined /> {co.classroom}</Tag>
                     }
                     {!!co.desc &&
                         <Tag>{co.desc}</Tag>
@@ -33,5 +34,5 @@ export function CourseList(props) {
             footer={import_btn}
         >
         </List>
-    )
+    );
 }

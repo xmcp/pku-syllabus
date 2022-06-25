@@ -1,5 +1,6 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Input, Icon, Affix, Alert} from 'antd';
+import {DownloadOutlined} from '@ant-design/icons';
+import {PageHeader, Button, Input, Affix, Alert} from 'antd';
 import ical from 'ical-generator';
 import {SEMESTER, DATA_VER} from '../config';
 import {ROUTES} from '../routes';
@@ -138,7 +139,7 @@ export class ExportIcs extends Component {
         return (
             <div>
                 <Affix offsetTop={0}>
-                    <PageHeader title="生成 iCalendar 日历" onBack={()=>{this.props.navigate(ROUTES.edit);}} />
+                    <PageHeader ghost={false} title="生成 iCalendar 日历" onBack={()=>{this.props.navigate(ROUTES.edit);}} />
                 </Affix>
                 <div className="main-margin">
                     <Alert
@@ -152,7 +153,7 @@ export class ExportIcs extends Component {
                     /></p>
                     <br />
                     <Button block type="primary" size="large" href={this.gen_cal()} disabled={this.props.courses.length===0}>
-                        <Icon type="download" /> 保存日历
+                        <DownloadOutlined /> 保存日历
                     </Button>
                     <br /><br />
                     <div className="hint-text">

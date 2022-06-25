@@ -1,13 +1,12 @@
 import React, {Component, PureComponent} from 'react';
-import {Menu, Icon, Layout, Badge} from 'antd';
+import {CheckSquareOutlined, EditOutlined, ImportOutlined, InfoCircleOutlined, SettingOutlined} from '@ant-design/icons';
+import {Menu, Layout, Badge} from 'antd';
 import {ROUTES} from '../routes';
+
+import './Sidebar.css';
 
 const {Item, SubMenu}=Menu;
 const {Sider}=Layout;
-
-function SidebarTrigger(props) {
-    return (<div id="foo-trigger">Hello</div>);
-}
 
 export function SidebarComp(props) {
     return (
@@ -31,31 +30,31 @@ export function SidebarComp(props) {
                     mode="inline"
                     inlineIndent={18}
                     selectedKeys={[props.current_route]}
-                    openKeys={[ROUTES.homepage]}
+                    openKeys={["--import-menu"]}
                     onSelect={(e)=>{
                         props.navigate(e.key);
                     }}
             >
                 <Item key={ROUTES.homepage}>
-                    <Icon type="setting" /> 学期配置
+                    <SettingOutlined /> 学期配置
                 </Item>
                 <SubMenu
-                        key={ROUTES.homepage}
-                        title={
-                            <span>
-                                <Icon type="import" /> 导入课表
-                            </span>
-                        }
-                        onTitleClick={(e)=>{
-                            props.navigate(ROUTES.homepage);
-                        }}
+                    key={"--import-menu"}
+                    title={
+                        <span>
+                            <ImportOutlined /> 导入课表
+                        </span>
+                    }
+                    onTitleClick={(e)=>{
+                        props.navigate(ROUTES.import_elective);
+                    }}
+                    popupClassName="sidebar-menu-popup"
                 >
                     <Item key={ROUTES.import_elective}>从选课系统</Item>
-                    {/*<Item key={ROUTES.import_isop}>从教务系统</Item>*/}
                     <Item key={ROUTES.import_config}>从日历文件</Item>
                 </SubMenu>
                 <Item key={ROUTES.edit}>
-                    <Icon type="edit" /> 编辑
+                    <EditOutlined /> 编辑
                     &nbsp;
                     <Badge
                         count={props.courses.length}
@@ -66,10 +65,10 @@ export function SidebarComp(props) {
                     />
                 </Item>
                 <Item key={ROUTES.export_ics}>
-                    <Icon type="check-square" /> 生成日历
+                    <CheckSquareOutlined /> 生成日历
                 </Item>
                 <Item key={ROUTES.about}>
-                    <Icon type="info-circle" /> 关于
+                    <InfoCircleOutlined /> 关于
                 </Item>
             </Menu>
         </Sider>

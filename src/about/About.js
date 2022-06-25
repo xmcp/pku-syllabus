@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {PageHeader, Button, Affix, Icon} from 'antd';
+import { PageHeader, Button, Affix } from 'antd';
 import {ROUTES} from '../routes';
 
 import './About.css';
@@ -11,6 +11,7 @@ export function About(props) {
         <div>
             <Affix offsetTop={0}>
                 <PageHeader
+                    ghost={false}
                     title="关于 课表助手"
                     onBack={()=>{props.navigate(ROUTES.homepage)}}
                 />
