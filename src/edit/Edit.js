@@ -99,13 +99,18 @@ class CourseChanger extends Component {
 
                 <p><Input addonBefore="备注" defaultValue={co.desc} onChange={change_meta('desc')} /></p>
                 <Row gutter={8}>
-                    <Col span={16}>
+                    <Col span={7}>
+                        <Button danger block onClick={()=>this.props.do_delete()}>
+                            <DeleteOutlined /> 删除
+                        </Button>
+                    </Col>
+                    <Col span={10}>
                         <Button type="primary" block onClick={()=>this.do_save(false)} disabled={!this.state.changed}>
                             {!this.state.changed && <CheckCircleOutlined />}
                             保存
                         </Button>
                     </Col>
-                    <Col span={8}>
+                    <Col span={7}>
                         <Button type="default" block onClick={()=>this.do_save(true)}>
                             存为副本
                         </Button>
@@ -189,37 +194,29 @@ export class Edit extends Component {
                         size="small"
                         columns={[
                             {
-                                title: '操作',
+                                title: '',
                                 key: 'actions',
                                 fixed: 'left',
-                                width: 85,
+                                width: 45,
                                 align: 'center',
                                 render: (_,co,idx)=>(
-                                    <span>
-                                        <Popconfirm
+                                    <Popover
+                                            key={`${this.props.courses.length},${idx}`} // refresh when courses are changed
+                                            trigger="click"
+                                            title={null}
+                                            content={
+                                                <CourseChanger
+                                                    course={co}
+                                                    do_modify={this.modify_course_meta(idx)}
+                                                    do_delete={this.delete_course_meta(idx)}
+                                                />
+                                            }
                                             placement="topLeft"
-                                            onConfirm={this.delete_course_meta(idx)}
-                                            title="删除此课程？"
-                                            okText="删除"
-                                            cancelText="取消"
-                                        >
-                                            <Button danger size="small">
-                                                <DeleteOutlined />
-                                            </Button>
-                                        </Popconfirm>
-                                        &nbsp;
-                                        <Popover
-                                                key={`${this.props.courses.length},${idx}`} // refresh when courses are changed
-                                                trigger="click"
-                                                title="课程信息"
-                                                content={<CourseChanger course={co} do_modify={this.modify_course_meta(idx)} />}
-                                                placement="topLeft"
-                                        >
-                                            <Button size="small">
-                                                <FormOutlined />
-                                            </Button>
-                                        </Popover>
-                                    </span>
+                                    >
+                                        <Button size="small">
+                                            <FormOutlined />
+                                        </Button>
+                                    </Popover>
                                 )
                             },
                             {
