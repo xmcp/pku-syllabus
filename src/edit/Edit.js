@@ -7,7 +7,6 @@ import {WEEKS_NUM} from '../config';
 
 import './Edit.css';
 
-const InputGroup=Input.Group;
 const {Option}=Select;
 
 class CourseChanger extends Component {
@@ -72,16 +71,16 @@ class CourseChanger extends Component {
         return (
             <div>
                 <p><Input addonBefore="名称" defaultValue={co.course_name} onChange={change_meta('course_name')} /></p>
-                <br />
-                <InputGroup compact>
-                    <Input style={{width: '25%'}} type="tel" prefix="第" defaultValue={co.begin_week} suffix="~" onChange={change_meta('begin_week')} />
-                    <Input style={{width: '25%'}} type="tel" defaultValue={co.end_week} suffix="周" onChange={change_meta('end_week')} />
-                    <Select style={{width: '25%'}} defaultValue={co.every} onChange={change_meta('every')}>
+
+                <p><Input.Group compact>
+                    <Input style={{width: '20%'}} type="tel" defaultValue={co.begin_week} suffix="~" onChange={change_meta('begin_week')} />
+                    <Input style={{width: '20%'}} type="tel" defaultValue={co.end_week} suffix="周" onChange={change_meta('end_week')} />
+                    <Select style={{width: '30%'}} defaultValue={co.every} onChange={change_meta('every')}>
                         <Option value="all">每周</Option>
                         <Option value="odd">单周</Option>
                         <Option value="even">双周</Option>
                     </Select>
-                    <Select style={{width: '25%'}} defaultValue={co.weekday} onChange={change_meta('weekday')}>
+                    <Select style={{width: '30%'}} defaultValue={co.weekday} onChange={change_meta('weekday')}>
                         <Option value={1}>周一</Option>
                         <Option value={2}>周二</Option>
                         <Option value={3}>周三</Option>
@@ -90,16 +89,15 @@ class CourseChanger extends Component {
                         <Option value={6}>周六</Option>
                         <Option value={7}>周日</Option>
                     </Select>
-                </InputGroup>
-                <br />
-                <InputGroup compact>
-                    <Input style={{width: '25%'}} type="tel" prefix="第" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
-                    <Input style={{width: '25%'}} type="tel" defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
-                    <Input style={{width: '50%'}} prefix={<EnvironmentOutlined />} defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
-                </InputGroup>
-                <br />
+                </Input.Group></p>
+
+                <p><Input.Group compact>
+                    <Input style={{width: '20%'}} type="tel" defaultValue={co.begin_time} suffix="~" onChange={change_meta('begin_time')} />
+                    <Input style={{width: '20%'}} type="tel" defaultValue={co.end_time} suffix="节" onChange={change_meta('end_time')} />
+                    <Input style={{width: '60%'}} prefix={<EnvironmentOutlined />} defaultValue={co.classroom} placeholder="教室" onChange={change_meta('classroom')} />
+                </Input.Group></p>
+
                 <p><Input addonBefore="备注" defaultValue={co.desc} onChange={change_meta('desc')} /></p>
-                <br />
                 <Row gutter={8}>
                     <Col span={16}>
                         <Button type="primary" block onClick={()=>this.do_save(false)} disabled={!this.state.changed}>
