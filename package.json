@@ -10,7 +10,7 @@
     "react-error-overlay": "6.0.9",
     "ical-generator": "^1.7.2",
     "md5": "^2.2.1",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
