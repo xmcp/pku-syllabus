@@ -152,7 +152,7 @@ export class ExportIcs extends Component {
                         type="info" showIcon
                         message={"第一周开始于 "+semester_key(this.props.semester)}
                         description={<>
-                            如不正确请 <a onClick={()=>this.props.navigate(ROUTES.homepage)}>修改学期配置</a>
+                            如不正确请 <a onClick={()=>this.props.navigate(ROUTES.homepage)}>修改开学时间</a>
                         </>}
                     />
                     <br />

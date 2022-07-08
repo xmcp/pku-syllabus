@@ -211,7 +211,7 @@ export class Edit extends Component {
                                                     do_delete={this.delete_course_meta(idx)}
                                                 />
                                             }
-                                            placement="topLeft"
+                                            placement="bottomLeft"
                                     >
                                         <Button size="small">
                                             <FormOutlined />

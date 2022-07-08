@@ -1,5 +1,5 @@
 import React, {Component, PureComponent} from 'react';
-import {InfoCircleOutlined, CalendarOutlined, ChromeOutlined, RightCircleOutlined} from '@ant-design/icons';
+import {ExportOutlined, CalendarOutlined, ChromeOutlined, RightCircleOutlined} from '@ant-design/icons';
 import {PageHeader, Row, Col, Card, Button, Alert, Affix, DatePicker} from 'antd';
 import {ROUTES} from '../routes';
 import moment from 'moment';
@@ -35,10 +35,10 @@ export class Homepage extends Component {
                         />
                     }
                     <br />
-                    <p>
-                        <b>设置开学时间：</b>
+                    <p style={{textAlign: 'center'}}>
+                        <b>开学时间：</b>
                         <DatePicker
-                            style={{width: '160px'}}
+                            style={{width: '175px'}}
                             picker="week"
                             value={this.to_moment(this.props.semester)}
                             format={'YYYY-MM-DD'}
@@ -49,13 +49,13 @@ export class Homepage extends Component {
                                     this.props.setCourses(null, monday.toDate());
                                 }
                             }}
-                        />
+                        />{' '}
                         <Button
                             type="link"
                             size="small"
                             onClick={()=>{window.open('https://www.pku.edu.cn/campus.html#p3a')}}
                         >
-                            <InfoCircleOutlined />校历
+                            <ExportOutlined />校历
                         </Button>
                     </p>
                     {this.props.semester!==null && <>
