@@ -11,7 +11,7 @@ export class Homepage extends Component {
         if(date===null)
             return null;
         else
-            return moment(date);
+            return moment(date).utcOffset(8);
     }
     render() {
         let IS_WEBVIEW=/MicroMessenger\/|QQ\//.test(navigator.userAgent);
@@ -44,7 +44,7 @@ export class Homepage extends Component {
                             format={'YYYY-MM-DD'}
                             onChange={(mom, _str)=>{
                                 if(mom) {
-                                    let monday=moment(mom).weekday(0);
+                                    let monday=moment(mom).utcOffset(8).weekday(0).startOf('day');
                                     console.log(monday.toDate());
                                     this.props.setCourses(null, monday.toDate());
                                 }
